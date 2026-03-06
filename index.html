@@ -37,38 +37,41 @@ try{
 
 let res = await fetch("https://api.gold-api.com/price/XAU");
 let data = await res.json();
-let usd = data.price;
-// harga USD per oz
-let usd = data[0].price;
 
-// tukar kepada RM per gram
+let usd = data.price;
+
+// tukar kepada MYR per gram
 let myr = usd / 31.1035 * 4.35;
 
 // hampir harga MKS
 let mks = myr * 0.98;
 
-// ikut potongan bos
 document.getElementById("g9999").innerHTML="RM "+mks.toFixed(2)+"/g";
 document.getElementById("g999").innerHTML="RM "+(mks*0.999).toFixed(2)+"/g";
+
 document.getElementById("g916").innerHTML="RM "+((mks*0.916)-10).toFixed(2)+"/g";
+
 document.getElementById("g835").innerHTML="RM "+((mks*0.835)-30).toFixed(2)+"/g";
 document.getElementById("g750").innerHTML="RM "+((mks*0.750)-30).toFixed(2)+"/g";
 document.getElementById("g585").innerHTML="RM "+((mks*0.585)-30).toFixed(2)+"/g";
 document.getElementById("g375").innerHTML="RM "+((mks*0.375)-30).toFixed(2)+"/g";
 
-}catch(e){
-console.log("API error",e);
+}catch(err){
+
+document.getElementById("g9999").innerHTML="RM --";
+document.getElementById("g999").innerHTML="RM --";
+document.getElementById("g916").innerHTML="RM --";
+document.getElementById("g835").innerHTML="RM --";
+document.getElementById("g750").innerHTML="RM --";
+document.getElementById("g585").innerHTML="RM --";
+document.getElementById("g375").innerHTML="RM --";
+
 }
 
 }
 
 liveGold();
 setInterval(liveGold,60000);
-
-let today=new Date();
-document.getElementById("tarikh").innerHTML=
-today.toLocaleDateString("ms-MY",{weekday:"long"})+" | "+
-today.toLocaleDateString("ms-MY");
 
 </script>
 </body>
