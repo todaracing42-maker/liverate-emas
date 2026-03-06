@@ -11,9 +11,9 @@ text-align:center;
 }
 
 .logo{
-font-size:40px;
+font-size:42px;
 font-weight:bold;
-letter-spacing:3px;
+letter-spacing:4px;
 margin-top:30px;
 }
 
@@ -23,13 +23,13 @@ margin-bottom:20px;
 color:#ffd700;
 }
 
-.box{
-width:360px;
+.board{
+width:380px;
 margin:auto;
 background:#111;
 padding:20px;
 border-radius:15px;
-box-shadow:0 0 30px gold;
+box-shadow:0 0 40px gold;
 }
 
 .time{
@@ -42,7 +42,19 @@ display:flex;
 justify-content:space-between;
 padding:12px;
 border-bottom:1px solid #333;
-font-size:20px;
+font-size:22px;
+}
+
+.price{
+font-weight:bold;
+}
+
+.up{
+color:#00ff6a;
+}
+
+.down{
+color:#ff3b3b;
 }
 
 button{
@@ -56,15 +68,17 @@ border-radius:8px;
 }
 
 </style></head><body><div class="logo">HYNGOLD</div>
-<div class="subtitle">LIVE RATE EMAS</div><div class="box"><div class="time" id="time"></div><div class="row"><span>999.9</span><span id="g9999">-</span></div>
-<div class="row"><span>999</span><span id="g999">-</span></div>
-<div class="row"><span>916</span><span id="g916">-</span></div>
-<div class="row"><span>835</span><span id="g835">-</span></div>
-<div class="row"><span>750</span><span id="g750">-</span></div>
-<div class="row"><span>585</span><span id="g585">-</span></div>
-<div class="row"><span>375</span><span id="g375">-</span></div><a href="https://www.wasap.my/60143005979">
+<div class="subtitle">LIVE RATE EMAS</div><div class="board"><div class="time" id="time"></div><div class="row"><span>999.9</span><span class="price" id="g9999">-</span></div>
+<div class="row"><span>999</span><span class="price" id="g999">-</span></div>
+<div class="row"><span>916</span><span class="price" id="g916">-</span></div>
+<div class="row"><span>835</span><span class="price" id="g835">-</span></div>
+<div class="row"><span>750</span><span class="price" id="g750">-</span></div>
+<div class="row"><span>585</span><span class="price" id="g585">-</span></div>
+<div class="row"><span>375</span><span class="price" id="g375">-</span></div><a href="https://www.wasap.my/60143005979">
 <button>WHATSAPP KAMI</button>
 </a></div><script>
+
+let lastPrice=0;
 
 function masa(){
 
@@ -98,31 +112,42 @@ let rm=(usd*4.35)/31.1035;
 
 let base=rm*0.92;
 
+let arrowClass="";
+
+if(base>lastPrice){arrowClass="up";}
+if(base<lastPrice){arrowClass="down";}
+
+lastPrice=base;
+
 
 
 let g9999=base-22;
-
 let g999=(base*0.999)-24;
-
 let g916=(base*0.916)-20;
-
 let g835=(base*0.835)-26;
-
 let g750=(base*0.750)-25;
-
 let g585=(base*0.585)-24;
-
 let g375=(base*0.375)-26;
 
 
 
-document.getElementById("g9999").innerHTML="RM "+g9999.toFixed(2)+"/g";
-document.getElementById("g999").innerHTML="RM "+g999.toFixed(2)+"/g";
-document.getElementById("g916").innerHTML="RM "+g916.toFixed(2)+"/g";
-document.getElementById("g835").innerHTML="RM "+g835.toFixed(2)+"/g";
-document.getElementById("g750").innerHTML="RM "+g750.toFixed(2)+"/g";
-document.getElementById("g585").innerHTML="RM "+g585.toFixed(2)+"/g";
-document.getElementById("g375").innerHTML="RM "+g375.toFixed(2)+"/g";
+function setPrice(id,val){
+
+let el=document.getElementById(id);
+
+el.innerHTML="RM "+val.toFixed(2)+"/g";
+
+el.className="price "+arrowClass;
+
+}
+
+setPrice("g9999",g9999);
+setPrice("g999",g999);
+setPrice("g916",g916);
+setPrice("g835",g835);
+setPrice("g750",g750);
+setPrice("g585",g585);
+setPrice("g375",g375);
 
 }catch(err){
 
