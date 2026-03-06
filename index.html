@@ -67,8 +67,6 @@ font-size:16px;
 
 async function liveRate(){
 
-try{
-
 let res = await fetch("https://api.gold-api.com/price/XAU");
 let data = await res.json();
 
@@ -76,21 +74,23 @@ let usd = data.price;
 
 let rm = usd * 4.35 / 31.1035;
 
-let base = rm * 0.92;
+let mks = rm * 0.90;
 
-document.getElementById("g9999").innerText="RM "+base.toFixed(2)+"/g";
-document.getElementById("g999").innerText="RM "+(base*0.999).toFixed(2)+"/g";
-document.getElementById("g916").innerText="RM "+((base*0.916)-10).toFixed(2)+"/g";
-document.getElementById("g835").innerText="RM "+((base*0.835)-30).toFixed(2)+"/g";
-document.getElementById("g750").innerText="RM "+((base*0.750)-30).toFixed(2)+"/g";
-document.getElementById("g585").innerText="RM "+((base*0.585)-30).toFixed(2)+"/g";
-document.getElementById("g375").innerText="RM "+((base*0.375)-30).toFixed(2)+"/g";
+let g9999 = mks;
+let g999 = g9999 * 0.999;
+let g916 = (g9999 * 0.916) - 10;
+let g835 = (g9999 * 0.835) - 30;
+let g750 = (g9999 * 0.750) - 30;
+let g585 = (g9999 * 0.585) - 30;
+let g375 = (g9999 * 0.375) - 30;
 
-}catch(e){
-
-console.log("API error");
-
-}
+document.getElementById("g9999").innerHTML="RM "+g9999.toFixed(2)+"/g";
+document.getElementById("g999").innerHTML="RM "+g999.toFixed(2)+"/g";
+document.getElementById("g916").innerHTML="RM "+g916.toFixed(2)+"/g";
+document.getElementById("g835").innerHTML="RM "+g835.toFixed(2)+"/g";
+document.getElementById("g750").innerHTML="RM "+g750.toFixed(2)+"/g";
+document.getElementById("g585").innerHTML="RM "+g585.toFixed(2)+"/g";
+document.getElementById("g375").innerHTML="RM "+g375.toFixed(2)+"/g";
 
 }
 
