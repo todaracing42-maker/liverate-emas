@@ -46,20 +46,20 @@ let myr = usd * 3.94 / 31.1035;
 
 /* kira harga */
 
-let base = myr;
+let myr = usd * 3.94 / 31.1035;
+
+/* laraskan supaya hampir harga MKS */
+
+let base = myr * 0.92;
 
 document.getElementById("g9999").innerHTML="RM "+base.toFixed(2)+"/g";
-
 document.getElementById("g999").innerHTML="RM "+(base*0.999).toFixed(2)+"/g";
 
 document.getElementById("g916").innerHTML="RM "+((base*0.916)-10).toFixed(2)+"/g";
 
 document.getElementById("g835").innerHTML="RM "+((base*0.835)-30).toFixed(2)+"/g";
-
 document.getElementById("g750").innerHTML="RM "+((base*0.750)-30).toFixed(2)+"/g";
-
 document.getElementById("g585").innerHTML="RM "+((base*0.585)-30).toFixed(2)+"/g";
-
 document.getElementById("g375").innerHTML="RM "+((base*0.375)-30).toFixed(2)+"/g";
 
 }catch{
