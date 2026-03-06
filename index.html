@@ -31,7 +31,7 @@ button{margin-top:20px;padding:12px 25px;background:#25D366;border:none;color:wh
 
 <script>
 
-async function liveGold(){
+async function liveMKS(){
 
 try{
 
@@ -40,39 +40,41 @@ let data = await res.json();
 
 let usd = data.price;
 
-// tukar kepada MYR per gram
-let myr = usd / 31.1035 * 4.35;
+/* tukar USD/OZ kepada RM/g hampir harga MKS */
 
-// hampir harga MKS
-let mks = myr * 0.98;
+let myr = usd * 3.94 / 31.1035;
 
-document.getElementById("g9999").innerHTML="RM "+mks.toFixed(2)+"/g";
-document.getElementById("g999").innerHTML="RM "+(mks*0.999).toFixed(2)+"/g";
+/* kira harga */
 
-document.getElementById("g916").innerHTML="RM "+((mks*0.916)-10).toFixed(2)+"/g";
+let base = myr;
 
-document.getElementById("g835").innerHTML="RM "+((mks*0.835)-30).toFixed(2)+"/g";
-document.getElementById("g750").innerHTML="RM "+((mks*0.750)-30).toFixed(2)+"/g";
-document.getElementById("g585").innerHTML="RM "+((mks*0.585)-30).toFixed(2)+"/g";
-document.getElementById("g375").innerHTML="RM "+((mks*0.375)-30).toFixed(2)+"/g";
+document.getElementById("g9999").innerHTML="RM "+base.toFixed(2)+"/g";
 
-}catch(err){
+document.getElementById("g999").innerHTML="RM "+(base*0.999).toFixed(2)+"/g";
 
-document.getElementById("g9999").innerHTML="RM --";
-document.getElementById("g999").innerHTML="RM --";
-document.getElementById("g916").innerHTML="RM --";
-document.getElementById("g835").innerHTML="RM --";
-document.getElementById("g750").innerHTML="RM --";
-document.getElementById("g585").innerHTML="RM --";
-document.getElementById("g375").innerHTML="RM --";
+document.getElementById("g916").innerHTML="RM "+((base*0.916)-10).toFixed(2)+"/g";
 
+document.getElementById("g835").innerHTML="RM "+((base*0.835)-30).toFixed(2)+"/g";
+
+document.getElementById("g750").innerHTML="RM "+((base*0.750)-30).toFixed(2)+"/g";
+
+document.getElementById("g585").innerHTML="RM "+((base*0.585)-30).toFixed(2)+"/g";
+
+document.getElementById("g375").innerHTML="RM "+((base*0.375)-30).toFixed(2)+"/g";
+
+}catch{
+
+document.getElementById("g9999").innerHTML="Error";
 }
 
 }
 
-liveGold();
-setInterval(liveGold,60000);
+liveMKS();
 
-</script>
+/* refresh setiap 10 saat */
+
+setInterval(liveMKS,10000);
+
+</script></script>
 </body>
 </html>
