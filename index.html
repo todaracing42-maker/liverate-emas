@@ -65,24 +65,15 @@ font-size:16px;
 
 <script>
 
-async function liveRate(){
-
-let res = await fetch("https://api.gold-api.com/price/XAU");
-let data = await res.json();
-
-let usd = data.price;
-
-let rm = usd * 4.35 / 31.1035;
-
-let mks = rm * 0.90;
+let mks = 646.614; // harga 1g dari MKS
 
 let g9999 = mks;
-let g999 = g9999 * 0.999;
-let g916 = (g9999 * 0.916) - 10;
-let g835 = (g9999 * 0.835) - 30;
-let g750 = (g9999 * 0.750) - 30;
-let g585 = (g9999 * 0.585) - 30;
-let g375 = (g9999 * 0.375) - 30;
+let g999 = mks * 0.999;
+let g916 = (mks * 0.916) - 10;
+let g835 = (mks * 0.835) - 30;
+let g750 = (mks * 0.750) - 30;
+let g585 = (mks * 0.585) - 30;
+let g375 = (mks * 0.375) - 30;
 
 document.getElementById("g9999").innerHTML="RM "+g9999.toFixed(2)+"/g";
 document.getElementById("g999").innerHTML="RM "+g999.toFixed(2)+"/g";
@@ -91,11 +82,6 @@ document.getElementById("g835").innerHTML="RM "+g835.toFixed(2)+"/g";
 document.getElementById("g750").innerHTML="RM "+g750.toFixed(2)+"/g";
 document.getElementById("g585").innerHTML="RM "+g585.toFixed(2)+"/g";
 document.getElementById("g375").innerHTML="RM "+g375.toFixed(2)+"/g";
-
-}
-
-liveRate();
-setInterval(liveRate,10000);
 
 </script>
 
