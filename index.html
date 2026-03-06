@@ -1,80 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>LIVE RATE EMAS</title>
-<style>
-body{background:#000;color:#FFD700;font-family:Arial;text-align:center}
-.box{width:380px;margin:auto;margin-top:50px;background:#111;padding:20px;border-radius:12px;box-shadow:0 0 15px gold}
-.rate{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #333;font-size:19px}
-button{margin-top:20px;padding:12px 25px;background:#25D366;border:none;color:white;font-size:16px;border-radius:6px}
-</style>
-</head>
-
-<body>
-<div class="box">
-<h2>LIVE RATE EMAS</h2>
-<p id="tarikh"></p>
-
-<div class="rate"><span>999.9</span><span id="g9999">Loading...</span></div>
-<div class="rate"><span>999</span><span id="g999">Loading...</span></div>
-<div class="rate"><span>916</span><span id="g916">Loading...</span></div>
-<div class="rate"><span>835</span><span id="g835">Loading...</span></div>
-<div class="rate"><span>750</span><span id="g750">Loading...</span></div>
-<div class="rate"><span>585</span><span id="g585">Loading...</span></div>
-<div class="rate"><span>375</span><span id="g375">Loading...</span></div>
-
-<a href="https://www.wasap.my/60143005979">
-<button>WHATSAPP KAMI</button>
-</a>
-</div>
-
 <script>
 
 async function liveMKS(){
 
 try{
 
-let res = await fetch("https://api.gold-api.com/price/XAU");
-let data = await res.json();
+let response = await fetch("https://api.allorigins.win/raw?url=https://www.mkspamp.com.my/pricing");
 
-let usd = data.price;
+let html = await response.text();
 
-/* tukar USD/OZ kepada RM/g hampir harga MKS */
+/* cari harga 1 kilo */
 
-let myr = usd * 3.94 / 31.1035;
+let match = html.match(/EMAS : 1 KILO[^0-9]*([0-9 ]+)/);
+
+let kilo = match[1].replace(/ /g,"");
+
+let base = kilo/1000;
 
 /* kira harga */
 
-let myr = usd * 3.94 / 31.1035;
-
-/* laraskan supaya hampir harga MKS */
-
-let base = myr * 0.92;
-
 document.getElementById("g9999").innerHTML="RM "+base.toFixed(2)+"/g";
+
 document.getElementById("g999").innerHTML="RM "+(base*0.999).toFixed(2)+"/g";
 
 document.getElementById("g916").innerHTML="RM "+((base*0.916)-10).toFixed(2)+"/g";
 
 document.getElementById("g835").innerHTML="RM "+((base*0.835)-30).toFixed(2)+"/g";
+
 document.getElementById("g750").innerHTML="RM "+((base*0.750)-30).toFixed(2)+"/g";
+
 document.getElementById("g585").innerHTML="RM "+((base*0.585)-30).toFixed(2)+"/g";
+
 document.getElementById("g375").innerHTML="RM "+((base*0.375)-30).toFixed(2)+"/g";
 
 }catch{
 
 document.getElementById("g9999").innerHTML="Error";
+
 }
 
 }
 
 liveMKS();
 
-/* refresh setiap 10 saat */
+/* update setiap 10 saat */
 
 setInterval(liveMKS,10000);
 
-</script></script>
-</body>
-</html>
+</script>
