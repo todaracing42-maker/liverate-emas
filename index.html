@@ -80,7 +80,25 @@ border-radius:8px;
 
 <script>
 
+function updateTime(){
+
+let now = new Date();
+
+let hari=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
+
+let d=hari[now.getDay()];
+let t=now.getDate()+"/"+(now.getMonth()+1)+"/"+now.getFullYear();
+let m=now.toLocaleTimeString();
+
+document.getElementById("time").innerHTML=d+" | "+t+" | "+m;
+
+}
+
+setInterval(updateTime,1000);
+
 async function liveRate(){
+
+try{
 
 let res = await fetch("https://api.gold-api.com/price/XAU");
 let data = await res.json();
@@ -93,9 +111,7 @@ let base = rm * 0.92;
 
 let g9999 = base;
 let g999 = base * 0.999;
-
 let g916 = (base * 0.916) - 10;
-
 let g835 = (base * 0.835) - 30;
 let g750 = (base * 0.750) - 30;
 let g585 = (base * 0.585) - 30;
@@ -109,11 +125,19 @@ document.getElementById("g750").innerHTML="RM "+g750.toFixed(2)+"/g";
 document.getElementById("g585").innerHTML="RM "+g585.toFixed(2)+"/g";
 document.getElementById("g375").innerHTML="RM "+g375.toFixed(2)+"/g";
 
+}catch(e){
+
+console.log("API error");
+
+}
+
 }
 
 liveRate();
+
 setInterval(liveRate,5000);
 
 </script>
+
 </body>
 </html>
