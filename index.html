@@ -1,5 +1,7 @@
 <!DOCTYPE html><html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1"><title>LIVE RATE EMAS</title><style>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HYNGOLD LIVE RATE</title><style>
 
 body{
 background:black;
@@ -8,18 +10,26 @@ color:gold;
 text-align:center;
 }
 
+.logo{
+font-size:40px;
+font-weight:bold;
+letter-spacing:3px;
+margin-top:30px;
+}
+
+.subtitle{
+font-size:18px;
+margin-bottom:20px;
+color:#ffd700;
+}
+
 .box{
 width:360px;
 margin:auto;
-margin-top:60px;
 background:#111;
 padding:20px;
 border-radius:15px;
-box-shadow:0 0 25px gold;
-}
-
-h1{
-margin-bottom:5px;
+box-shadow:0 0 30px gold;
 }
 
 .time{
@@ -30,7 +40,7 @@ margin-bottom:15px;
 .row{
 display:flex;
 justify-content:space-between;
-padding:10px;
+padding:12px;
 border-bottom:1px solid #333;
 font-size:20px;
 }
@@ -39,13 +49,14 @@ button{
 margin-top:20px;
 padding:12px 25px;
 border:none;
-background:#2ecc71;
+background:#25D366;
 color:white;
 font-size:16px;
 border-radius:8px;
 }
 
-</style></head><body><div class="box"><h1>LIVE RATE EMAS</h1><div class="time" id="time"></div><div class="row"><span>999.9</span><span id="g9999">-</span></div>
+</style></head><body><div class="logo">HYNGOLD</div>
+<div class="subtitle">LIVE RATE EMAS</div><div class="box"><div class="time" id="time"></div><div class="row"><span>999.9</span><span id="g9999">-</span></div>
 <div class="row"><span>999</span><span id="g999">-</span></div>
 <div class="row"><span>916</span><span id="g916">-</span></div>
 <div class="row"><span>835</span><span id="g835">-</span></div>
@@ -75,6 +86,8 @@ setInterval(masa,1000);
 
 async function harga(){
 
+try{
+
 let res=await fetch("https://api.gold-api.com/price/XAU");
 
 let data=await res.json();
@@ -87,9 +100,9 @@ let base=rm*0.92;
 
 
 
-let g9999=(base*0.999)-22;
+let g9999=base-22;
 
-let g999=(base*0.994)-24;
+let g999=(base*0.999)-24;
 
 let g916=(base*0.916)-20;
 
@@ -104,24 +117,24 @@ let g375=(base*0.375)-26;
 
 
 document.getElementById("g9999").innerHTML="RM "+g9999.toFixed(2)+"/g";
-
 document.getElementById("g999").innerHTML="RM "+g999.toFixed(2)+"/g";
-
 document.getElementById("g916").innerHTML="RM "+g916.toFixed(2)+"/g";
-
 document.getElementById("g835").innerHTML="RM "+g835.toFixed(2)+"/g";
-
 document.getElementById("g750").innerHTML="RM "+g750.toFixed(2)+"/g";
-
 document.getElementById("g585").innerHTML="RM "+g585.toFixed(2)+"/g";
-
 document.getElementById("g375").innerHTML="RM "+g375.toFixed(2)+"/g";
+
+}catch(err){
+
+console.log("API error");
+
+}
 
 }
 
 harga();
 
-setInterval(harga,0);
+setInterval(harga,5000);
 
 </script></body>
 </html>
