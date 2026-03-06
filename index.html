@@ -35,9 +35,9 @@ async function liveGold(){
 
 try{
 
-let res = await fetch("https://api.metals.live/v1/spot/gold");
+let res = await fetch("https://api.gold-api.com/price/XAU");
 let data = await res.json();
-
+let usd = data.price;
 // harga USD per oz
 let usd = data[0].price;
 
