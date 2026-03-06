@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +16,13 @@ text-align:center;
 }
 
 .box{
-width:350px;
+width:360px;
 margin:auto;
 margin-top:50px;
 background:#111;
 padding:20px;
 border-radius:10px;
+box-shadow:0 0 10px gold;
 }
 
 .rate{
@@ -29,6 +31,16 @@ justify-content:space-between;
 padding:10px;
 border-bottom:1px solid #333;
 font-size:18px;
+}
+
+button{
+margin-top:20px;
+padding:10px 20px;
+background:#25D366;
+border:none;
+color:white;
+font-size:16px;
+border-radius:6px;
 }
 
 </style>
@@ -50,18 +62,36 @@ font-size:18px;
 <div class="rate"><span>585</span><span id="g585"></span></div>
 <div class="rate"><span>375</span><span id="g375"></span></div>
 
+<a href="https://www.wasap.my/60143005979">
+<button>WHATSAPP KAMI</button>
+</a>
+
 </div>
 
 <script>
 
-let base = 630;
+async function getGold(){
 
-document.getElementById("g9999").innerHTML="RM "+base+"/g";
-document.getElementById("g916").innerHTML="RM "+(base*0.916).toFixed(2)+"/g";
-document.getElementById("g835").innerHTML="RM "+(base*0.835).toFixed(2)+"/g";
-document.getElementById("g750").innerHTML="RM "+(base*0.750).toFixed(2)+"/g";
-document.getElementById("g585").innerHTML="RM "+(base*0.585).toFixed(2)+"/g";
-document.getElementById("g375").innerHTML="RM "+(base*0.375).toFixed(2)+"/g";
+let url="https://api.gold-api.com/price/XAU";
+
+let res=await fetch(url);
+
+let data=await res.json();
+
+let price=data.price/31.1*4.7;
+
+document.getElementById("g9999").innerHTML="RM "+price.toFixed(2)+"/g";
+document.getElementById("g916").innerHTML="RM "+(price*0.916).toFixed(2)+"/g";
+document.getElementById("g835").innerHTML="RM "+(price*0.835).toFixed(2)+"/g";
+document.getElementById("g750").innerHTML="RM "+(price*0.750).toFixed(2)+"/g";
+document.getElementById("g585").innerHTML="RM "+(price*0.585).toFixed(2)+"/g";
+document.getElementById("g375").innerHTML="RM "+(price*0.375).toFixed(2)+"/g";
+
+}
+
+getGold();
+
+setInterval(getGold,60000);
 
 let today=new Date();
 
