@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>LIVE RATE EMAS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
@@ -18,7 +16,7 @@ text-align:center;
 .box{
 width:360px;
 margin:auto;
-margin-top:80px;
+margin-top:60px;
 background:#111;
 padding:20px;
 border-radius:15px;
@@ -30,7 +28,6 @@ margin-bottom:5px;
 }
 
 .time{
-font-size:14px;
 color:#ccc;
 margin-bottom:15px;
 }
@@ -40,7 +37,7 @@ display:flex;
 justify-content:space-between;
 padding:10px;
 border-bottom:1px solid #333;
-font-size:18px;
+font-size:20px;
 }
 
 button{
@@ -54,6 +51,7 @@ border-radius:8px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -64,13 +62,13 @@ border-radius:8px;
 
 <div class="time" id="time"></div>
 
-<div class="row"><span>999.9</span><span id="g9999">Loading...</span></div>
-<div class="row"><span>999</span><span id="g999">Loading...</span></div>
-<div class="row"><span>916</span><span id="g916">Loading...</span></div>
-<div class="row"><span>835</span><span id="g835">Loading...</span></div>
-<div class="row"><span>750</span><span id="g750">Loading...</span></div>
-<div class="row"><span>585</span><span id="g585">Loading...</span></div>
-<div class="row"><span>375</span><span id="g375">Loading...</span></div>
+<div class="row"><span>999.9</span><span id="g9999">-</span></div>
+<div class="row"><span>999</span><span id="g999">-</span></div>
+<div class="row"><span>916</span><span id="g916">-</span></div>
+<div class="row"><span>835</span><span id="g835">-</span></div>
+<div class="row"><span>750</span><span id="g750">-</span></div>
+<div class="row"><span>585</span><span id="g585">-</span></div>
+<div class="row"><span>375</span><span id="g375">-</span></div>
 
 <a href="https://www.wasap.my/60143005979">
 <button>WHATSAPP KAMI</button>
@@ -80,62 +78,73 @@ border-radius:8px;
 
 <script>
 
-function updateTime(){
+function masa(){
 
-let now = new Date();
+let now=new Date();
 
 let hari=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
 
-let d=hari[now.getDay()];
+let h=hari[now.getDay()];
 let t=now.getDate()+"/"+(now.getMonth()+1)+"/"+now.getFullYear();
 let m=now.toLocaleTimeString();
 
-document.getElementById("time").innerHTML=d+" | "+t+" | "+m;
+document.getElementById("time").innerHTML=h+" | "+t+" | "+m;
 
 }
 
-setInterval(updateTime,1000);
+setInterval(masa,1000);
 
-async function liveRate(){
 
-try{
 
-let res = await fetch("https://api.gold-api.com/price/XAU");
-let data = await res.json();
+async function harga(){
 
-let usd = data.price;
+let res=await fetch("https://api.gold-api.com/price/XAU");
 
-let rm = (usd * 4.35) / 31.1035;
+let data=await res.json();
 
-let base = rm * 0.92;
+let usd=data.price;
 
-let g9999 = base;
-let g999 = base * 0.999;
-let g916 = (base * 0.916) - 10;
-let g835 = (base * 0.835) - 30;
-let g750 = (base * 0.750) - 30;
-let g585 = (base * 0.585) - 30;
-let g375 = (base * 0.375) - 30;
+let rm=(usd*4.35)/31.1035;
+
+let base=rm*0.92;
+
+
+
+let g9999=base;
+
+let g999=base*0.999;
+
+let g916=(base*0.916)-10;
+
+let g835=(base*0.835)-30;
+
+let g750=(base*0.750)-30;
+
+let g585=(base*0.585)-30;
+
+let g375=(base*0.375)-30;
+
+
 
 document.getElementById("g9999").innerHTML="RM "+g9999.toFixed(2)+"/g";
+
 document.getElementById("g999").innerHTML="RM "+g999.toFixed(2)+"/g";
+
 document.getElementById("g916").innerHTML="RM "+g916.toFixed(2)+"/g";
+
 document.getElementById("g835").innerHTML="RM "+g835.toFixed(2)+"/g";
+
 document.getElementById("g750").innerHTML="RM "+g750.toFixed(2)+"/g";
+
 document.getElementById("g585").innerHTML="RM "+g585.toFixed(2)+"/g";
+
 document.getElementById("g375").innerHTML="RM "+g375.toFixed(2)+"/g";
 
-}catch(e){
-
-console.log("API error");
-
 }
 
-}
+harga();
 
-liveRate();
-
-setInterval(liveRate,5000);
+setInterval(harga,5000);
 
 </script>
 
