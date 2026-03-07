@@ -8,86 +8,68 @@ background-position:center;
 font-family:Arial;
 color:#ffd700;
 text-align:center;
+margin:0;
 }
 
 .logo{
-font-size:60px;
+font-size:34px;
 font-weight:bold;
-letter-spacing:6px;
-margin-top:30px;
-text-shadow:0 0 20px gold;
+letter-spacing:4px;
+margin-top:20px;
+text-shadow:0 0 10px gold;
 }
 
 .subtitle{
-font-size:26px;
-margin-bottom:20px;
+font-size:18px;
+margin-bottom:10px;
 }
 
 .board{
-width:520px;
+width:95%;
+max-width:420px;
 margin:auto;
-background:rgba(0,0,0,0.75);
-padding:25px;
-border-radius:15px;
-box-shadow:0 0 40px gold;
+background:rgba(0,0,0,0.8);
+padding:15px;
+border-radius:12px;
+box-shadow:0 0 25px gold;
 }
 
 .time{
 color:#ccc;
-margin-bottom:20px;
-font-size:20px;
+margin-bottom:10px;
+font-size:14px;
 }
 
 .row{
 display:flex;
 justify-content:space-between;
-padding:14px;
+padding:12px;
 border-bottom:1px solid #333;
-font-size:30px;
+font-size:20px;
 }
 
 .price{
 font-weight:bold;
 }
 
-.up{
+.label{
 color:#00ff6a;
-}
-
-.down{
-color:#ff3b3b;
-}
-
-.ticker{
-margin-top:20px;
-white-space:nowrap;
-overflow:hidden;
-box-sizing:border-box;
-font-size:18px;
-}
-
-.ticker span{
-display:inline-block;
-padding-left:100%;
-animation:scroll 20s linear infinite;
-}
-
-@keyframes scroll{
-0%{transform:translateX(0);}
-100%{transform:translateX(-100%);}
+font-size:16px;
+margin-bottom:10px;
 }
 
 button{
-margin-top:20px;
-padding:15px 30px;
+margin-top:15px;
+padding:12px 25px;
 border:none;
 background:#25D366;
 color:white;
-font-size:18px;
+font-size:16px;
 border-radius:8px;
+width:100%;
 }
 
-</style></head><body><div class="logo">HYNGOLD</div><div class="subtitle">LIVE RATE EMAS</div><div class="board"><div class="time" id="time"></div><div class="row"><span>999.9</span><span class="price" id="g9999">-</span></div>
+</style></head><body><div class="logo">HYNGOLD</div><div class="subtitle">LIVE RATE EMAS</div><div class="board"><div class="label">WE BUY</div><div class="time" id="time"></div><div class="row"><span>999.9</span><span class="price" id="g9999">-</span></div>
 <div class="row"><span>999</span><span class="price" id="g999">-</span></div>
 <div class="row"><span>916</span><span class="price" id="g916">-</span></div>
 <div class="row"><span>835</span><span class="price" id="g835">-</span></div>
@@ -95,11 +77,7 @@ border-radius:8px;
 <div class="row"><span>585</span><span class="price" id="g585">-</span></div>
 <div class="row"><span>375</span><span class="price" id="g375">-</span></div><a href="https://www.wasap.my/60143005979">
 <button>WHATSAPP KAMI</button>
-</a><div class="ticker">
-<span>HYNGOLD LIVE RATE | Harga emas berubah setiap 5 saat | Jual beli emas terbaik</span>
-</div></div><script>
-
-let lastPrice=0;
+</a></div><script>
 
 function masa(){
 
@@ -133,15 +111,6 @@ let rm=(usd*4.35)/31.1035;
 
 let base=rm*0.92;
 
-let arrowClass="";
-
-if(base>lastPrice){arrowClass="up";}
-if(base<lastPrice){arrowClass="down";}
-
-lastPrice=base;
-
-
-
 let g9999=base-22;
 let g999=(base*0.999)-24;
 let g916=(base*0.916)-20;
@@ -150,25 +119,13 @@ let g750=(base*0.750)-25;
 let g585=(base*0.585)-24;
 let g375=(base*0.375)-26;
 
-
-
-function setPrice(id,val){
-
-let el=document.getElementById(id);
-
-el.innerHTML="RM "+val.toFixed(2)+"/g";
-
-el.className="price "+arrowClass;
-
-}
-
-setPrice("g9999",g9999);
-setPrice("g999",g999);
-setPrice("g916",g916);
-setPrice("g835",g835);
-setPrice("g750",g750);
-setPrice("g585",g585);
-setPrice("g375",g375);
+document.getElementById("g9999").innerHTML="RM "+g9999.toFixed(2)+"/g";
+document.getElementById("g999").innerHTML="RM "+g999.toFixed(2)+"/g";
+document.getElementById("g916").innerHTML="RM "+g916.toFixed(2)+"/g";
+document.getElementById("g835").innerHTML="RM "+g835.toFixed(2)+"/g";
+document.getElementById("g750").innerHTML="RM "+g750.toFixed(2)+"/g";
+document.getElementById("g585").innerHTML="RM "+g585.toFixed(2)+"/g";
+document.getElementById("g375").innerHTML="RM "+g375.toFixed(2)+"/g";
 
 }catch(err){
 
