@@ -1,32 +1,33 @@
 <!DOCTYPE html><html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HYNGOLD LIVE RATE</title><style>
+<head><meta name="viewport" content="width=device-width, initial-scale=1"><title>HYNGOLD LIVE RATE</title><style>
 
 body{
-background:black;
+background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1600&q=80");
+background-size:cover;
+background-position:center;
 font-family:Arial;
-color:gold;
+color:#ffd700;
 text-align:center;
 }
 
 .logo{
-font-size:42px;
+font-size:48px;
 font-weight:bold;
-letter-spacing:4px;
-margin-top:30px;
+letter-spacing:5px;
+margin-top:40px;
+text-shadow:0 0 10px gold;
 }
 
 .subtitle{
-font-size:18px;
+font-size:20px;
 margin-bottom:20px;
-color:#ffd700;
 }
 
 .board{
-width:380px;
+width:400px;
 margin:auto;
-background:#111;
+background:rgba(0,0,0,0.75);
+backdrop-filter:blur(6px);
 padding:20px;
 border-radius:15px;
 box-shadow:0 0 40px gold;
@@ -67,8 +68,7 @@ font-size:16px;
 border-radius:8px;
 }
 
-</style></head><body><div class="logo">HYNGOLD</div>
-<div class="subtitle">LIVE RATE EMAS</div><div class="board"><div class="time" id="time"></div><div class="row"><span>999.9</span><span class="price" id="g9999">-</span></div>
+</style></head><body><div class="logo">HYNGOLD</div><div class="subtitle">LIVE RATE EMAS</div><div class="board"><div class="time" id="time"></div><div class="row"><span>999.9</span><span class="price" id="g9999">-</span></div>
 <div class="row"><span>999</span><span class="price" id="g999">-</span></div>
 <div class="row"><span>916</span><span class="price" id="g916">-</span></div>
 <div class="row"><span>835</span><span class="price" id="g835">-</span></div>
@@ -122,11 +122,17 @@ lastPrice=base;
 
 
 let g9999=base-22;
+
 let g999=(base*0.999)-24;
+
 let g916=(base*0.916)-20;
+
 let g835=(base*0.835)-26;
+
 let g750=(base*0.750)-25;
+
 let g585=(base*0.585)-24;
+
 let g375=(base*0.375)-26;
 
 
