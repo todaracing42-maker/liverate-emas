@@ -2,7 +2,7 @@
 <head><meta name="viewport" content="width=device-width, initial-scale=1"><title>HYNGOLD LIVE RATE</title><style>
 
 body{
-background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1600&q=80");
+background:url("https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=1600&q=80");
 background-size:cover;
 background-position:center;
 font-family:Arial;
@@ -11,23 +11,23 @@ text-align:center;
 }
 
 .logo{
-font-size:48px;
+font-size:50px;
 font-weight:bold;
-letter-spacing:5px;
+letter-spacing:6px;
 margin-top:40px;
-text-shadow:0 0 10px gold;
+text-shadow:0 0 15px gold;
 }
 
 .subtitle{
-font-size:20px;
+font-size:22px;
 margin-bottom:20px;
 }
 
 .board{
-width:400px;
+width:420px;
 margin:auto;
 background:rgba(0,0,0,0.75);
-backdrop-filter:blur(6px);
+backdrop-filter:blur(8px);
 padding:20px;
 border-radius:15px;
 box-shadow:0 0 40px gold;
@@ -43,7 +43,7 @@ display:flex;
 justify-content:space-between;
 padding:12px;
 border-bottom:1px solid #333;
-font-size:22px;
+font-size:24px;
 }
 
 .price{
@@ -56,6 +56,25 @@ color:#00ff6a;
 
 .down{
 color:#ff3b3b;
+}
+
+.ticker{
+margin-top:20px;
+white-space:nowrap;
+overflow:hidden;
+box-sizing:border-box;
+color:#ffd700;
+}
+
+.ticker span{
+display:inline-block;
+padding-left:100%;
+animation:scroll 20s linear infinite;
+}
+
+@keyframes scroll{
+0%{transform:translateX(0);}
+100%{transform:translateX(-100%);}
 }
 
 button{
@@ -76,7 +95,9 @@ border-radius:8px;
 <div class="row"><span>585</span><span class="price" id="g585">-</span></div>
 <div class="row"><span>375</span><span class="price" id="g375">-</span></div><a href="https://www.wasap.my/60143005979">
 <button>WHATSAPP KAMI</button>
-</a></div><script>
+</a><div class="ticker">
+<span>Harga emas live berubah setiap 5 saat | HYNGOLD LIVE RATE</span>
+</div></div><script>
 
 let lastPrice=0;
 
