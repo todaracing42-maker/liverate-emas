@@ -1,21 +1,6 @@
-<!DOCTYPE html><html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1"><title>HYNGOLD LIVE RATE</title><style>
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>HYNGOLD LIVE RATE</title><style>
 
 body{
-
-<script>
-
-let password = "hyngold123";
-
-let input = prompt("Masukkan Password HYNGOLD");
-
-if(input !== password){
-
-document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:100px'>Akses Ditolak</h1>";
-
-}
-
-</script>
 background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1600&q=80");
 background-size:cover;
 background-position:center;
@@ -65,7 +50,7 @@ display:flex;
 justify-content:space-between;
 padding:14px;
 border-bottom:1px solid #333;
-font-size:24px;
+font-size:22px;
 }
 
 .price{
@@ -118,7 +103,19 @@ animation:scroll 22s linear infinite;
 100%{transform:translateX(-100%);}
 }
 
-</style></head><body><div class="logo">HYNGOLD</div>
+</style></head><body><script>
+
+let password = "hyngold123";
+
+let input = prompt("Masukkan Password HYNGOLD");
+
+if(input !== password){
+
+document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:100px'>Akses Ditolak</h1>";
+
+}
+
+</script><div class="logo">HYNGOLD</div>
 <div class="subtitle">LIVE RATE EMAS</div><div class="board"><div class="label">WE BUY</div><div class="time" id="time"></div><div class="row"><span>999.9</span><span class="price" id="g9999">-</span></div>
 <div class="row"><span>999</span><span class="price" id="g999">-</span></div>
 <div class="row"><span>916</span><span class="price" id="g916">-</span></div>
@@ -193,5 +190,4 @@ harga();
 
 setInterval(harga,5000);
 
-</script></body>
-</html>
+</script></body></html>
