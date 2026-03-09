@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>HYNGOLD LIVE RATE</title>
 
 <style>
@@ -81,16 +79,15 @@ border-radius:8px;
 
 <script>
 
-let staffMode=false
+let staff=false
 
-// CHECK URL
-if(window.location.search=="?staff"){
+// STAFF LOGIN
+if(window.location.hash=="#staff"){
 
-let password="hyngold123"
-let input=prompt("Masukkan Password")
+let pass=prompt("Masukkan Password Staff")
 
-if(input===password){
-staffMode=true
+if(pass=="hyngold123"){
+staff=true
 }else{
 alert("Akses Ditolak")
 }
@@ -124,7 +121,10 @@ let usd=data.price
 let rm=(usd*4.35)/31.1035
 let base=rm*0.92
 
-// PENGIRAAN IKUT SCRIPT TUAN
+
+// ======================
+// PUBLIC PRICE
+// ======================
 
 let g9999=(base*0.999)-22
 let g999=(base*0.994)-24
@@ -133,6 +133,24 @@ let g835=(base*0.835)-26
 let g750=(base*0.750)-25
 let g585=(base*0.585)-24
 let g375=(base*0.375)-26
+
+
+// ======================
+// STAFF PRICE
+// ======================
+
+if(staff){
+
+g9999=(base*0.999)
+g999=(base*0.994)
+g916=(base*0.916)
+g835=(base*0.835)
+g750=(base*0.750)
+g585=(base*0.585)
+g375=(base*0.375)
+
+}
+
 
 document.getElementById("g9999").innerHTML="RM "+g9999.toFixed(2)+"/g"
 document.getElementById("g999").innerHTML="RM "+g999.toFixed(2)+"/g"
@@ -145,7 +163,6 @@ document.getElementById("g375").innerHTML="RM "+g375.toFixed(2)+"/g"
 }
 
 harga()
-
 setInterval(harga,5000)
 
 </script>
