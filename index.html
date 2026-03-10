@@ -16,9 +16,11 @@ font-family:Arial;
 color:#ffd700;
 text-align:center;
 
-background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1600&q=80");
+background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d");
 background-size:cover;
 background-position:center;
+background-repeat:no-repeat;
+height:100vh;
 }
 
 .box{
@@ -28,8 +30,12 @@ margin:auto;
 margin-top:60px;
 background:rgba(0,0,0,0.85);
 padding:25px;
-border-radius:15px;
-box-shadow:0 0 40px gold;
+border-radius:18px;
+
+box-shadow:
+0 0 10px gold,
+0 0 30px gold,
+0 0 60px rgba(255,215,0,0.6);
 }
 
 h1{
@@ -38,7 +44,7 @@ margin-bottom:5px;
 
 .time{
 color:#ccc;
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
 .head{
@@ -55,6 +61,14 @@ justify-content:space-between;
 padding:12px;
 border-bottom:1px solid #333;
 font-size:20px;
+}
+
+.up{
+color:#00ff90;
+}
+
+.down{
+color:#ff4d4d;
 }
 
 button{
@@ -76,6 +90,10 @@ border-radius:8px;
 <div class="box">
 
 <h1>HYNGOLD LIVE RATE</h1>
+
+<div style="font-size:13px;color:#aaa;margin-bottom:10px;">
+LIVE GOLD PRICE MALAYSIA
+</div>
 
 <div class="time" id="time"></div>
 
@@ -101,21 +119,9 @@ border-radius:8px;
 
 <script>
 
-let staff=false
-
-// STAFF MODE
-if(window.location.hash=="#staff"){
-
-let pass=prompt("Masukkan Password Staff")
-
-if(pass=="hyngold123"){
-staff=true
-}
-
-}
+let lastPrice=0
 
 
-// MASA
 function masa(){
 
 let now=new Date()
@@ -134,18 +140,17 @@ setInterval(masa,1000)
 
 
 
-// LIVE HARGA
 async function harga(){
 
 let res=await fetch("https://api.gold-api.com/price/XAU")
 let data=await res.json()
 
 let usd=data.price
+
 let rm=(usd*4.35)/31.1035
+
 let base=rm*0.92
 
-
-// WE BUY
 
 let b9999=(base*0.999)-22
 let b999=(base*0.994)-24
@@ -156,8 +161,6 @@ let b585=(base*0.585)-24
 let b375=(base*0.375)-26
 
 
-// WE SELL
-
 let s9999=b9999+25
 let s999=b999+25
 let s916=b916+25
@@ -167,36 +170,39 @@ let s585=b585+25
 let s375=b375+25
 
 
-// STAFF MODE
+update("b9999",b9999)
+update("b999",b999)
+update("b916",b916)
+update("b835",b835)
+update("b750",b750)
+update("b585",b585)
+update("b375",b375)
 
-if(staff){
-
-b9999=(base*0.999)
-b999=(base*0.994)
-b916=(base*0.916)
-b835=(base*0.835)
-b750=(base*0.750)
-b585=(base*0.585)
-b375=(base*0.375)
+update("s9999",s9999)
+update("s999",s999)
+update("s916",s916)
+update("s835",s835)
+update("s750",s750)
+update("s585",s585)
+update("s375",s375)
 
 }
 
+function update(id,value){
 
-document.getElementById("b9999").innerHTML="RM "+b9999.toFixed(2)
-document.getElementById("b999").innerHTML="RM "+b999.toFixed(2)
-document.getElementById("b916").innerHTML="RM "+b916.toFixed(2)
-document.getElementById("b835").innerHTML="RM "+b835.toFixed(2)
-document.getElementById("b750").innerHTML="RM "+b750.toFixed(2)
-document.getElementById("b585").innerHTML="RM "+b585.toFixed(2)
-document.getElementById("b375").innerHTML="RM "+b375.toFixed(2)
+let el=document.getElementById(id)
 
-document.getElementById("s9999").innerHTML="RM "+s9999.toFixed(2)
-document.getElementById("s999").innerHTML="RM "+s999.toFixed(2)
-document.getElementById("s916").innerHTML="RM "+s916.toFixed(2)
-document.getElementById("s835").innerHTML="RM "+s835.toFixed(2)
-document.getElementById("s750").innerHTML="RM "+s750.toFixed(2)
-document.getElementById("s585").innerHTML="RM "+s585.toFixed(2)
-document.getElementById("s375").innerHTML="RM "+s375.toFixed(2)
+let old=parseFloat(el.innerText.replace("RM",""))
+
+el.innerHTML="RM "+value.toFixed(2)
+
+if(value>old){
+el.className="up"
+}
+
+if(value<old){
+el.className="down"
+}
 
 }
 
