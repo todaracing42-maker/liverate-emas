@@ -4,9 +4,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>HYNGOLD LIVE RATE</title>
-
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2933/2933116.png">
+<title>HYNGOLD WE BUY</title>
 
 <style>
 
@@ -28,14 +26,17 @@ width:90%;
 max-width:420px;
 margin:auto;
 margin-top:60px;
+
 background:rgba(0,0,0,0.85);
+
 padding:25px;
-border-radius:18px;
+
+border-radius:20px;
 
 box-shadow:
 0 0 10px gold,
-0 0 30px gold,
-0 0 60px rgba(255,215,0,0.6);
+0 0 40px gold,
+0 0 70px rgba(255,215,0,0.7);
 }
 
 h1{
@@ -44,15 +45,7 @@ margin-bottom:5px;
 
 .time{
 color:#ccc;
-margin-bottom:15px;
-}
-
-.head{
-display:flex;
-justify-content:space-between;
-font-size:14px;
-color:#aaa;
-margin-bottom:5px;
+margin-bottom:20px;
 }
 
 .row{
@@ -81,6 +74,32 @@ font-size:16px;
 border-radius:8px;
 }
 
+.ticker{
+position:fixed;
+bottom:0;
+width:100%;
+background:black;
+color:gold;
+padding:10px;
+font-size:18px;
+white-space:nowrap;
+overflow:hidden;
+}
+
+.ticker span{
+display:inline-block;
+padding-left:100%;
+animation:scroll 15s linear infinite;
+}
+
+@keyframes scroll{
+
+0%{transform:translateX(0)}
+
+100%{transform:translateX(-100%)}
+
+}
+
 </style>
 
 </head>
@@ -89,27 +108,17 @@ border-radius:8px;
 
 <div class="box">
 
-<h1>HYNGOLD LIVE RATE</h1>
-
-<div style="font-size:13px;color:#aaa;margin-bottom:10px;">
-LIVE GOLD PRICE MALAYSIA
-</div>
+<h1>HYNGOLD WE BUY</h1>
 
 <div class="time" id="time"></div>
 
-<div class="head">
-<span>EMAS</span>
-<span>WE BUY</span>
-<span>WE SELL</span>
-</div>
-
-<div class="row"><span>999.9</span><span id="b9999">-</span><span id="s9999">-</span></div>
-<div class="row"><span>999</span><span id="b999">-</span><span id="s999">-</span></div>
-<div class="row"><span>916</span><span id="b916">-</span><span id="s916">-</span></div>
-<div class="row"><span>835</span><span id="b835">-</span><span id="s835">-</span></div>
-<div class="row"><span>750</span><span id="b750">-</span><span id="s750">-</span></div>
-<div class="row"><span>585</span><span id="b585">-</span><span id="s585">-</span></div>
-<div class="row"><span>375</span><span id="b375">-</span><span id="s375">-</span></div>
+<div class="row"><span>999.9</span><span id="g9999">-</span></div>
+<div class="row"><span>999</span><span id="g999">-</span></div>
+<div class="row"><span>916</span><span id="g916">-</span></div>
+<div class="row"><span>835</span><span id="g835">-</span></div>
+<div class="row"><span>750</span><span id="g750">-</span></div>
+<div class="row"><span>585</span><span id="g585">-</span></div>
+<div class="row"><span>375</span><span id="g375">-</span></div>
 
 <a href="https://www.wasap.my/60143005979">
 <button>WHATSAPP KAMI</button>
@@ -117,10 +126,13 @@ LIVE GOLD PRICE MALAYSIA
 
 </div>
 
+
+<div class="ticker">
+<span id="tickertext">LIVE GOLD PRICE HYNGOLD</span>
+</div>
+
+
 <script>
-
-let lastPrice=0
-
 
 function masa(){
 
@@ -129,7 +141,9 @@ let now=new Date()
 let hari=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"]
 
 let h=hari[now.getDay()]
+
 let t=now.getDate()+"/"+(now.getMonth()+1)+"/"+now.getFullYear()
+
 let m=now.toLocaleTimeString()
 
 document.getElementById("time").innerHTML=h+" | "+t+" | "+m
@@ -143,6 +157,7 @@ setInterval(masa,1000)
 async function harga(){
 
 let res=await fetch("https://api.gold-api.com/price/XAU")
+
 let data=await res.json()
 
 let usd=data.price
@@ -152,41 +167,36 @@ let rm=(usd*4.35)/31.1035
 let base=rm*0.92
 
 
-let b9999=(base*0.999)-22
-let b999=(base*0.994)-24
-let b916=(base*0.916)-20
-let b835=(base*0.835)-26
-let b750=(base*0.750)-25
-let b585=(base*0.585)-24
-let b375=(base*0.375)-26
+let g9999=(base*0.999)-22
+
+let g999=(base*0.994)-24
+
+let g916=(base*0.916)-20
+
+let g835=(base*0.835)-26
+
+let g750=(base*0.750)-25
+
+let g585=(base*0.585)-24
+
+let g375=(base*0.375)-26
 
 
-let s9999=b9999+25
-let s999=b999+25
-let s916=b916+25
-let s835=b835+25
-let s750=b750+25
-let s585=b585+25
-let s375=b375+25
+update("g9999",g9999)
+update("g999",g999)
+update("g916",g916)
+update("g835",g835)
+update("g750",g750)
+update("g585",g585)
+update("g375",g375)
 
 
-update("b9999",b9999)
-update("b999",b999)
-update("b916",b916)
-update("b835",b835)
-update("b750",b750)
-update("b585",b585)
-update("b375",b375)
+document.getElementById("tickertext").innerHTML=
 
-update("s9999",s9999)
-update("s999",s999)
-update("s916",s916)
-update("s835",s835)
-update("s750",s750)
-update("s585",s585)
-update("s375",s375)
+"999.9 RM "+g9999.toFixed(2)+" | 999 RM "+g999.toFixed(2)+" | 916 RM "+g916.toFixed(2)+" | 835 RM "+g835.toFixed(2)
 
 }
+
 
 function update(id,value){
 
@@ -194,17 +204,22 @@ let el=document.getElementById(id)
 
 let old=parseFloat(el.innerText.replace("RM",""))
 
-el.innerHTML="RM "+value.toFixed(2)
+el.innerHTML="RM "+value.toFixed(2)+"/g"
 
 if(value>old){
+
 el.className="up"
+
 }
 
 if(value<old){
+
 el.className="down"
+
 }
 
 }
+
 
 harga()
 
