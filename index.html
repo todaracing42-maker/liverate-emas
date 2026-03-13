@@ -1,5 +1,5 @@
-<!DOCTYPE html><html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HYNGOLD WE BUY</title><style>
 
 body{
@@ -30,6 +30,12 @@ box-shadow:
 
 h1{
 margin-bottom:5px;
+}
+
+.mode{
+font-size:14px;
+color:#aaa;
+margin-bottom:10px;
 }
 
 .time{
@@ -90,7 +96,31 @@ animation:scroll 15s linear infinite;
 100%{transform:translateX(-100%)}
 }
 
-</style></head><body><div class="box"><h1>HYNGOLD WE BUY</h1><div class="time" id="time"></div><div class="row"><span>999.9</span><span id="g9999">-</span></div>
+
+/* STAFF MODE */
+
+.staff-body{
+background:linear-gradient(135deg,#000000,#2a0000,#000000);
+}
+
+.staff-box{
+background:rgba(80,0,0,0.9);
+box-shadow:
+0 0 10px red,
+0 0 40px red,
+0 0 80px rgba(255,0,0,0.7);
+}
+
+.staff-title{
+color:#ff4d4d;
+}
+
+.staff-label{
+color:#ff8080;
+font-weight:bold;
+}
+
+</style></head><body><div class="box" id="box"><h1 id="title">HYNGOLD WE BUY</h1><div id="mode" class="mode">PUBLIC MODE</div><div class="time" id="time"></div><div class="row"><span>999.9</span><span id="g9999">-</span></div>
 <div class="row"><span>999</span><span id="g999">-</span></div>
 <div class="row"><span>916</span><span id="g916">-</span></div>
 <div class="row"><span>835</span><span id="g835">-</span></div>
@@ -114,7 +144,19 @@ if(pass=="HYNGOLD888"){
 
 staff=true
 
-alert("Agen Mode Aktif")
+document.body.classList.add("staff-body")
+
+document.getElementById("box").classList.add("staff-box")
+
+document.getElementById("title").innerHTML="HYNGOLD AGENT MODE"
+
+document.getElementById("title").classList.add("staff-title")
+
+document.getElementById("mode").innerHTML="STAFF PRICE"
+
+document.getElementById("mode").classList.add("staff-label")
+
+alert("Agent Mode Aktif")
 
 harga()
 
