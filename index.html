@@ -10,10 +10,10 @@ text-align:center;
 background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d");
 background-size:cover;
 background-position:center;
-background-repeat:no-repeat;
 height:100vh;
 }
 
+/* BOX */
 .box{
 width:90%;
 max-width:420px;
@@ -28,21 +28,32 @@ box-shadow:
 0 0 70px rgba(255,215,0,0.7);
 }
 
+/* LOGO (AUTO) */
+.logo{
+width:130px;
+margin-bottom:10px;
+filter:drop-shadow(0 0 12px gold);
+}
+
+/* TITLE */
 h1{
 margin-bottom:5px;
 }
 
+/* MODE */
 .mode{
 font-size:14px;
 color:#aaa;
 margin-bottom:10px;
 }
 
+/* TIME */
 .time{
 color:#ccc;
 margin-bottom:20px;
 }
 
+/* ROW */
 .row{
 display:flex;
 justify-content:space-between;
@@ -51,14 +62,11 @@ border-bottom:1px solid #333;
 font-size:20px;
 }
 
-.up{
-color:#00ff90;
-}
+/* PRICE COLOR */
+.up{color:#00ff90;}
+.down{color:#ff4d4d;}
 
-.down{
-color:#ff4d4d;
-}
-
+/* BUTTON */
 button{
 margin-top:10px;
 padding:12px 25px;
@@ -69,10 +77,7 @@ font-size:16px;
 border-radius:8px;
 }
 
-.agent{
-background:#e67e22;
-}
-
+/* TICKER */
 .ticker{
 position:fixed;
 bottom:0;
@@ -96,8 +101,7 @@ animation:scroll 15s linear infinite;
 100%{transform:translateX(-100%)}
 }
 
-
-/* STAFF MODE */
+/* ===== STAFF MODE ===== */
 
 .staff-body{
 background:linear-gradient(135deg,#000000,#2a0000,#000000);
@@ -120,7 +124,7 @@ color:#ff8080;
 font-weight:bold;
 }
 
-</style></head><body><div class="box" id="box"><h1 id="title">HYNGOLD WE BUY</h1><div id="mode" class="mode">PUBLIC MODE</div><div class="time" id="time"></div><div class="row"><span>999.9</span><span id="g9999">-</span></div>
+</style></head><body><div class="box" id="box"><!-- LOGO --><img src="https://files.catbox.moe/8m0q6n.png" class="logo" onclick="tapLogo()"><h1 id="title">HYNGOLD WE BUY</h1><div id="mode" class="mode">PUBLIC MODE</div><div class="time" id="time"></div><div class="row"><span>999.9</span><span id="g9999">-</span></div>
 <div class="row"><span>999</span><span id="g999">-</span></div>
 <div class="row"><span>916</span><span id="g916">-</span></div>
 <div class="row"><span>835</span><span id="g835">-</span></div>
@@ -128,32 +132,36 @@ font-weight:bold;
 <div class="row"><span>585</span><span id="g585">-</span></div>
 <div class="row"><span>375</span><span id="g375">-</span></div><a href="https://www.wasap.my/60143005979">
 <button>WHATSAPP KAMI</button>
-</a><button class="agent" onclick="login()">AGEN</button>
-
-</div><div class="ticker">
+</a></div><div class="ticker">
 <span id="tickertext">LIVE GOLD PRICE HYNGOLD</span>
 </div><script>
 
 let staff=false
+let tapCount=0
 
-function login(){
+// BUTANG RAHSIA LOGO
+function tapLogo(){
+
+tapCount++
+
+if(tapCount>=5){
+
+tapCount=0
 
 let pass=prompt("Masukkan Password Agen")
 
-if(pass=="HAMBAALLAH"){
+if(pass=="HYNGOLD888"){
 
 staff=true
 
+// UI STAFF MODE
 document.body.classList.add("staff-body")
-
 document.getElementById("box").classList.add("staff-box")
 
 document.getElementById("title").innerHTML="HYNGOLD AGENT MODE"
-
 document.getElementById("title").classList.add("staff-title")
 
 document.getElementById("mode").innerHTML="STAFF PRICE"
-
 document.getElementById("mode").classList.add("staff-label")
 
 alert("Agent Mode Aktif")
@@ -163,6 +171,8 @@ harga()
 }else{
 
 alert("Password Salah")
+
+}
 
 }
 
@@ -203,30 +213,31 @@ let base=rm*0.92
 
 // PUBLIC PRICE
 
-let g9999=(base*0.999)-32
-let g999=(base*0.994)-46
-let g916=(base*0.916)-33
-let g835=(base*0.835)-60
-let g750=(base*0.750)-84
-let g585=(base*0.585)-101
-let g375=(base*0.375)-92
+let g9999=(base*0.999)-27
+let g999=(base*0.994)-37
+let g916=(base*0.916)-30
+let g835=(base*0.835)-36
+let g750=(base*0.750)-43
+let g585=(base*0.585)-47
+let g375=(base*0.375)-66
 
 
 // STAFF PRICE
 
 if(staff){
 
-g9999=(base*0.999)-22
-g999=(base*0.994)-26
-g916=(base*0.916)-25.90
-g835=(base*0.835)-25
-g750=(base*0.750)-33
-g585=(base*0.585)-35
-g375=(base*0.375)-55
+g9999=(base*0.999)-26
+g999=(base*0.994)-31
+g916=(base*0.916)-26.90
+g835=(base*0.835)-30
+g750=(base*0.750)-37
+g585=(base*0.585)-40
+g375=(base*0.375)-60
 
 }
 
 
+// UPDATE DISPLAY
 update("g9999",g9999)
 update("g999",g999)
 update("g916",g916)
@@ -236,12 +247,14 @@ update("g585",g585)
 update("g375",g375)
 
 
+// TICKER
 document.getElementById("tickertext").innerHTML=
 "999.9 RM "+g9999.toFixed(2)+" | 999 RM "+g999.toFixed(2)+" | 916 RM "+g916.toFixed(2)
 
 }
 
 
+// ANIMATION
 function update(id,value){
 
 let el=document.getElementById(id)
@@ -250,19 +263,13 @@ let old=parseFloat(el.innerText.replace("RM",""))
 
 el.innerHTML="RM "+value.toFixed(2)+"/g"
 
-if(value>old){
-el.className="up"
-}
-
-if(value<old){
-el.className="down"
-}
+if(value>old){el.className="up"}
+if(value<old){el.className="down"}
 
 }
 
 
 harga()
-
 setInterval(harga,5000)
 
 </script></body>
