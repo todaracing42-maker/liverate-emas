@@ -69,7 +69,7 @@ font-size:16px;
 border-radius:8px;
 }
 
-.agent{
+.staff{
 background:#e67e22;
 }
 
@@ -128,7 +128,7 @@ font-weight:bold;
 <div class="row"><span>585</span><span id="g585">-</span></div>
 <div class="row"><span>375</span><span id="g375">-</span></div><a href="https://www.wasap.my/60143005979">
 <button>WHATSAPP KAMI</button>
-</a><button class="agent" onclick="login()">AGEN</button>
+</a><button class="staff" onclick="login()">STAFF</button>
 
 </div><div class="ticker">
 <span id="tickertext">LIVE GOLD PRICE HYNGOLD</span>
@@ -138,17 +138,17 @@ let staff=false
 
 function login(){
 
-let pass=prompt("Masukkan Password Agen")
+let pass=prompt("Masukkan Password Staff")
 
 if(pass=="HAMBAALLAH"){
 
-staff=true
+agen=true
 
 document.body.classList.add("staff-body")
 
 document.getElementById("box").classList.add("staff-box")
 
-document.getElementById("title").innerHTML="HYNGOLD AGENT MODE"
+document.getElementById("title").innerHTML="HYNGOLD STAFF MODE"
 
 document.getElementById("title").classList.add("staff-title")
 
@@ -156,7 +156,7 @@ document.getElementById("mode").innerHTML="STAFF PRICE"
 
 document.getElementById("mode").classList.add("staff-label")
 
-alert("Agent Mode Aktif")
+alert("Staff Mode Aktif")
 
 harga()
 
