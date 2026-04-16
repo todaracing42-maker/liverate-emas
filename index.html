@@ -232,8 +232,20 @@ let total=berat * rate
 document.getElementById("total").innerHTML=total.toFixed(2)
 }
 
+// AUTO GERAK (LIVE + MICRO MOVEMENT)
 harga()
-setInterval(harga,0000)
+
+setInterval(()=>{
+harga()
+
+// buat harga nampak bergerak walaupun API slow
+Object.keys(hargaSemasa).forEach(id=>{
+let randomMove = (Math.random() - 0.5) * 0.8 // kecil sahaja
+let newValue = hargaSemasa[id] + randomMove
+update(id,newValue)
+})
+
+},4000)
 
 </script>
 
