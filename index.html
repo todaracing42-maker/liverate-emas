@@ -10,6 +10,8 @@ color:#ffd700;
 text-align:center;
 background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d");
 background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
 height:100vh;
 }
 
@@ -21,7 +23,7 @@ margin-top:60px;
 background:rgba(0,0,0,0.85);
 padding:25px;
 border-radius:18px;
-box-shadow:0 0 10px gold,0 0 40px gold;
+box-shadow:0 0 10px gold,0 0 40px gold,0 0 70px rgba(255,215,0,0.7);
 }
 
 .row{
@@ -30,21 +32,12 @@ justify-content:space-between;
 padding:12px;
 border-bottom:1px solid #333;
 font-size:20px;
-transition:0.3s;
 }
 
-/* NAIK TURUN */
-.up{
-color:#00ff90;
-font-weight:bold;
-text-shadow:0 0 8px #00ff90;
-}
+.up{color:#00ff90;}
+.down{color:#ff4d4d;}
 
-.down{
-color:#ff4d4d;
-font-weight:bold;
-text-shadow:0 0 8px #ff4d4d;
-}
+.arrow{margin-left:5px;font-size:14px;}
 
 input,select{
 margin-top:10px;
@@ -96,13 +89,26 @@ animation:scroll 12s linear infinite;
 0%{transform:translateX(0)}
 100%{transform:translateX(-100%)}
 }
+
+/* AGENT MODE */
+.staff-body{
+background:linear-gradient(#000,#2a0000,#000);
+}
+
+.staff-box{
+box-shadow:0 0 20px red;
+}
+
+.staff-title{
+color:#ff4d4d;
+}
 </style>
 
 </head><body>
 
 <div class="box" id="box">
 
-<h2 id="title">HYNGOLD WE BUY</h2>
+<h1 id="title">HYNGOLD WE BUY</h1>
 
 <div class="row"><span>999.9</span><span id="g9999">-</span></div>
 <div class="row"><span>999</span><span id="g999">-</span></div>
@@ -112,7 +118,7 @@ animation:scroll 12s linear infinite;
 <div class="row"><span>585</span><span id="g585">-</span></div>
 <div class="row"><span>375</span><span id="g375">-</span></div>
 
-<!-- KIRA -->
+<!-- AUTO KIRA -->
 <select id="karat" onchange="kira()">
 <option value="g9999">999.9</option>
 <option value="g999">999</option>
@@ -129,10 +135,6 @@ animation:scroll 12s linear infinite;
 RM <span id="total">0.00</span>
 </div>
 
-<a href="https://www.wasap.my/60143005979">
-<button>WHATSAPP KAMI</button>
-</a>
-
 <button class="agent" onclick="login()">AGEN</button>
 
 </div>
@@ -146,19 +148,16 @@ RM <span id="total">0.00</span>
 let staff=false
 let hargaSemasa={}
 
-// LOGIN AGENT
+// LOGIN
 function login(){
 let pass=prompt("Masukkan Password Agen")
 if(pass=="ALLAH"){
 staff=true
 
-// STYLE AGENT
-document.body.style.background="linear-gradient(#000,#2a0000,#000)"
-document.getElementById("box").style.boxShadow="0 0 20px red"
-document.getElementById("title").style.color="#ff4d4d"
+document.body.classList.add("staff-body")
+document.getElementById("box").classList.add("staff-box")
+document.getElementById("title").classList.add("staff-title")
 document.getElementById("title").innerHTML="HYNGOLD AGENT MODE"
-
-alert("Agent Mode Aktif")
 
 harga()
 
@@ -167,9 +166,8 @@ alert("Password Salah")
 }
 }
 
-// FETCH HARGA
+// FETCH
 async function harga(){
-
 try{
 let res=await fetch("https://api.gold-api.com/price/XAU")
 let data=await res.json()
@@ -180,14 +178,13 @@ process(rm)
 }catch{
 process(450)
 }
-
 }
 
+// PROCESS
 function process(rm){
 
 let base=rm*0.92
 
-// PUBLIC
 let g9999=(base*0.999)-20
 let g999=(base*0.994)-20
 let g916=(base*0.916)-26.4
@@ -196,15 +193,15 @@ let g750=(base*0.750)-35
 let g585=(base*0.585)-35
 let g375=(base*0.375)-45
 
-// STAFF
+// AGENT PRICE (BEZA)
 if(staff){
-g9999=(base*0.999)-15
-g999=(base*0.994)-14
-g916=(base*0.916)-17.69
-g835=(base*0.835)-31
-g750=(base*0.750)-30
-g585=(base*0.585)-31
-g375=(base*0.375)-35
+g9999+=5
+g999+=6
+g916+=8
+g835+=8
+g750+=10
+g585+=10
+g375+=12
 }
 
 update("g9999",g9999)
@@ -220,30 +217,33 @@ document.getElementById("tickertext").innerHTML=
 
 }
 
-// UPDATE + WARNA
+// UPDATE (NAIK TURUN)
 function update(id,value){
 
 let el=document.getElementById(id)
-
 let old=hargaSemasa[id]
 
-el.innerHTML="RM "+value.toFixed(2)+"/g"
+let arrow=""
 
 if(old !== undefined){
 if(value > old){
 el.className="up"
+arrow=" ↑"
 }else if(value < old){
 el.className="down"
+arrow=" ↓"
 }else{
 el.className=""
 }
 }
 
+el.innerHTML="RM "+value.toFixed(2)+"/g"+arrow
+
 hargaSemasa[id]=value
 
 }
 
-// KIRAAN (ANYGOLD STYLE)
+// KIRA
 function kira(){
 
 let berat=document.getElementById("berat").value
@@ -258,7 +258,7 @@ document.getElementById("total").innerHTML=total.toFixed(2)
 }
 
 harga()
-setInterval(harga,5000)
+setInterval(harga,4000)
 
 </script>
 
