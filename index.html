@@ -1,4 +1,6 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html>
+<head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HYNGOLD WE BUY</title>
 
@@ -24,11 +26,9 @@ border-radius:18px;
 box-shadow:0 0 10px gold,0 0 40px gold;
 }
 
-.time{
-color:#ccc;
-margin-bottom:15px;
-font-size:14px;
-}
+.time{color:#ccc;font-size:14px;}
+.status{font-size:12px;color:#aaa;}
+.last{font-size:11px;color:#777;margin-bottom:10px;}
 
 .row{
 display:flex;
@@ -78,14 +78,22 @@ background:linear-gradient(#000,#2a0000,#000);
 box-shadow:0 0 20px red;
 }
 </style>
+</head>
 
-</head><body>
+<body>
 
 <div class="box" id="box">
 
-<h2 id="title">HYNGOLD WE BUY MEMBELI EMAS DENGAN HARGA TERTINGGI</h2>
+<h2 id="title">
+HYNGOLD<br>
+<span style="font-size:14px;color:#ccc">
+WE BUY GOLD AT HIGHEST PRICE
+</span>
+</h2>
 
 <div class="time" id="time"></div>
+<div class="status" id="status">Connecting...</div>
+<div class="last" id="lastUpdate"></div>
 
 <div class="row"><span>999.9</span><span id="g9999">-</span></div>
 <div class="row"><span>999</span><span id="g999">-</span></div>
@@ -111,6 +119,7 @@ box-shadow:0 0 20px red;
 RM <span id="total">0.00</span>
 </div>
 
+<button onclick="manualRefresh()">REFRESH</button>
 <button class="agent" onclick="login()">AGEN</button>
 
 </div>
@@ -119,8 +128,9 @@ RM <span id="total">0.00</span>
 
 let staff=false
 let hargaSemasa={}
+let lastFetch=0
 
-// MASA LIVE
+// MASA
 function masa(){
 let now=new Date()
 let hari=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"]
@@ -130,35 +140,58 @@ let t=now.getDate()+"/"+(now.getMonth()+1)+"/"+now.getFullYear()
 let m=now.toLocaleTimeString()
 
 document.getElementById("time").innerHTML=h+" | "+t+" | "+m
+
+// AUTO RESET AGENT (9am - 8pm sahaja)
+let hour=now.getHours()
+if(hour < 9 || hour >= 20){
+staff=false
+document.body.classList.remove("staff-body")
+document.getElementById("box").classList.remove("staff-box")
+}
 }
 setInterval(masa,1000)
 
 // LOGIN
 function login(){
 let pass=prompt("Password Agen")
-if(pass=="1234567890"){
+if(pass==="HYNGOLD2026"){
 staff=true
 
 document.body.classList.add("staff-body")
 document.getElementById("box").classList.add("staff-box")
-document.getElementById("title").innerHTML="HYNGOLD AGENT MODE LOCK BERMULA JAM 0900AM HINGGA 0800PM KEDAI EMAS PILIHAN TERBAIK ANDA"
+
+document.getElementById("title").innerHTML=
+"HYNGOLD AGENT MODE AKTIF"
 
 harga()
 }
 }
 
-// FETCH LIVE
+// FETCH HARGA
 async function harga(){
 
+document.getElementById("status").innerHTML="Updating..."
+
 try{
+
 let res=await fetch("https://api.gold-api.com/price/XAU")
 let data=await res.json()
 
-let rm=(data.price*4.35)/31.1035
+let usd=data.price
+if(!usd) throw "error"
+
+let rm=(usd*4.7)/31.1035
+
 process(rm)
 
+document.getElementById("status").innerHTML="Live ✔"
+
 }catch{
-process(450)
+
+// fallback
+process(460)
+document.getElementById("status").innerHTML="API Error ⚠"
+
 }
 
 }
@@ -166,7 +199,8 @@ process(450)
 // PROCESS
 function process(rm){
 
-let base=rm*0.92
+let spread = staff ? 0.95 : 0.90
+let base=rm*spread
 
 let g9999=(base*0.999)-20
 let g999=(base*0.994)-20
@@ -176,7 +210,6 @@ let g750=(base*0.750)-35
 let g585=(base*0.585)-35
 let g375=(base*0.375)-45
 
-// STAFF BEZA
 if(staff){
 g9999+=5
 g999+=6
@@ -195,9 +228,13 @@ update("g750",g750)
 update("g585",g585)
 update("g375",g375)
 
+// last update
+document.getElementById("lastUpdate").innerHTML=
+"Last Update: "+new Date().toLocaleTimeString()
+
 }
 
-// UPDATE (NAIK TURUN)
+// UPDATE UI
 function update(id,value){
 
 let el=document.getElementById(id)
@@ -232,20 +269,25 @@ let total=berat * rate
 document.getElementById("total").innerHTML=total.toFixed(2)
 }
 
-// AUTO GERAK (LIVE + MICRO MOVEMENT)
+// AUTO REFRESH SMART
+function autoRefresh(){
+let now=Date.now()
+let delay = staff ? 5000 : 10000
+
+if(now - lastFetch > delay){
 harga()
+lastFetch=now
+}
+}
+setInterval(autoRefresh,1000)
 
-setInterval(()=>{
+// MANUAL REFRESH
+function manualRefresh(){
 harga()
+}
 
-// buat harga nampak bergerak walaupun API slow
-Object.keys(hargaSemasa).forEach(id=>{
-let randomMove = (Math.random() - 0.5) * 0.8 // kecil sahaja
-let newValue = hargaSemasa[id] + randomMove
-update(id,newValue)
-})
-
-},4000)
+// START
+harga()
 
 </script>
 
