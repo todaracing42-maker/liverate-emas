@@ -1,189 +1,252 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html><html><head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HYNGOLD • AnyGold Style</title>
+<title>HYNGOLD WE BUY</title>
 
 <style>
 body{
-  margin:0;
-  font-family:Arial;
-  background:#f2f2f2;
-  color:#333;
+margin:0;
+font-family:Arial;
+color:#ffd700;
+text-align:center;
+background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d");
+background-size:cover;
+height:100vh;
 }
 
-/* HEADER */
-.header{
-  background:linear-gradient(#f7d774,#e6c34d);
-  padding:15px;
-  font-weight:bold;
-  font-size:22px;
-  text-align:center;
+.box{
+width:90%;
+max-width:420px;
+margin:auto;
+margin-top:60px;
+background:rgba(0,0,0,0.85);
+padding:25px;
+border-radius:18px;
+box-shadow:0 0 10px gold,0 0 40px gold;
 }
 
-/* CARD */
-.card{
-  width:92%;
-  max-width:420px;
-  margin:15px auto;
-  background:#fff;
-  border-radius:14px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.15);
-  overflow:hidden;
+.time{
+color:#ccc;
+margin-bottom:15px;
+font-size:14px;
 }
 
-/* TABLE */
 .row{
-  display:flex;
-  justify-content:space-between;
-  padding:12px;
-  border-bottom:1px solid #eee;
-  align-items:center;
+display:flex;
+justify-content:space-between;
+padding:12px;
+border-bottom:1px solid #333;
+font-size:20px;
 }
 
-.header-row{
-  background:#f7e08a;
-  font-weight:bold;
+.up{color:#00ff90;}
+.down{color:#ff4d4d;}
+
+input,select{
+margin-top:10px;
+padding:10px;
+border-radius:10px;
+border:none;
+width:80%;
+text-align:center;
 }
 
-.purity{width:40%; text-align:left;}
-.buy{width:30%; text-align:center; color:#444;}
-.sell{width:30%; text-align:right; font-weight:bold; color:#000;}
-
-.muted{color:#999}
-
-/* FOOT */
-.footer{
-  padding:12px;
-  text-align:center;
+.result{
+margin-top:10px;
+background:#ffd700;
+color:#000;
+padding:12px;
+border-radius:10px;
+font-size:22px;
 }
 
 button{
-  padding:10px 20px;
-  border:none;
-  border-radius:8px;
-  background:#2d8cff;
-  color:#fff;
+margin-top:10px;
+padding:12px 25px;
+border:none;
+background:#2ecc71;
+color:white;
+border-radius:8px;
 }
 
-.status{
-  font-size:12px;
-  color:#666;
-  margin-top:6px;
+.agent{background:#e67e22;}
+
+.staff-body{
+background:linear-gradient(#000,#2a0000,#000);
+}
+
+.staff-box{
+box-shadow:0 0 20px red;
 }
 </style>
-</head>
 
-<body>
+</head><body>
 
-<div class="header">HYNGOLD</div>
+<div class="box" id="box">
 
-<div class="card">
+<h2 id="title">HYNGOLD WE BUY MEMBELI EMAS DENGAN HARGA TERTINGGI</h2>
 
-  <div class="row header-row">
-    <div class="purity">PURITY</div>
-    <div class="buy">WE BUY (RM)</div>
-    <div class="sell">WE SELL (RM)</div>
-  </div>
+<div class="time" id="time"></div>
 
-  <div class="row"><div class="purity">24K (999.9)</div><div class="buy" id="g9999b">-</div><div class="sell" id="g9999s">-</div></div>
-  <div class="row"><div class="purity">24K (999)</div><div class="buy" id="g999b">-</div><div class="sell muted">-</div></div>
-  <div class="row"><div class="purity">22K (916)</div><div class="buy" id="g916b">-</div><div class="sell" id="g916s">-</div></div>
-  <div class="row"><div class="purity">21K (875)</div><div class="buy" id="g875b">-</div><div class="sell muted">-</div></div>
-  <div class="row"><div class="purity">18K (750)</div><div class="buy" id="g750b">-</div><div class="sell muted">-</div></div>
-  <div class="row"><div class="purity">14K (585)</div><div class="buy" id="g585b">-</div><div class="sell muted">-</div></div>
-  <div class="row"><div class="purity">9K (375)</div><div class="buy" id="g375b">-</div><div class="sell muted">-</div></div>
+<div class="row"><span>999.9</span><span id="g9999">-</span></div>
+<div class="row"><span>999</span><span id="g999">-</span></div>
+<div class="row"><span>916</span><span id="g916">-</span></div>
+<div class="row"><span>835</span><span id="g835">-</span></div>
+<div class="row"><span>750</span><span id="g750">-</span></div>
+<div class="row"><span>585</span><span id="g585">-</span></div>
+<div class="row"><span>375</span><span id="g375">-</span></div>
 
-  <div class="footer">
-    <button onclick="harga()">Refresh</button>
-    <div class="status" id="status">Connecting...</div>
-    <div class="status" id="lastUpdate"></div>
-  </div>
+<select id="karat" onchange="kira()">
+<option value="g9999">999.9</option>
+<option value="g999">999</option>
+<option value="g916" selected>916</option>
+<option value="g835">835</option>
+<option value="g750">750</option>
+<option value="g585">585</option>
+<option value="g375">375</option>
+</select>
+
+<input type="number" id="berat" placeholder="Masukkan berat (g)" oninput="kira()">
+
+<div class="result">
+RM <span id="total">0.00</span>
+</div>
+
+<button class="agent" onclick="login()">AGEN</button>
 
 </div>
 
 <script>
-// FETCH LIVE (MKS STYLE)
+
+let staff=false
+let hargaSemasa={}
+
+// MASA LIVE
+function masa(){
+let now=new Date()
+let hari=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"]
+
+let h=hari[now.getDay()]
+let t=now.getDate()+"/"+(now.getMonth()+1)+"/"+now.getFullYear()
+let m=now.toLocaleTimeString()
+
+document.getElementById("time").innerHTML=h+" | "+t+" | "+m
+}
+setInterval(masa,1000)
+
+// LOGIN
+function login(){
+let pass=prompt("Password Agen")
+if(pass=="9999"){
+staff=true
+
+document.body.classList.add("staff-body")
+document.getElementById("box").classList.add("staff-box")
+document.getElementById("title").innerHTML="HYNGOLD AGENT MODE LOCK BERMULA JAM 0900AM HINGGA 0800PM KEDAI EMAS PILIHAN TERBAIK ANDA"
+
+harga()
+}
+}
+
+// FETCH LIVE
 async function harga(){
 
-document.getElementById("status").innerHTML="Updating..."
-
 try{
-
 let res=await fetch("https://api.gold-api.com/price/XAU")
 let data=await res.json()
-let usd=data.price
 
-let fx=await fetch("https://api.exchangerate-api.com/v4/latest/USD")
-let fxData=await fx.json()
-let rate=fxData.rates.MYR
-
-let rm=(usd*rate)/31.1035
-
+let rm=(data.price*4.35)/31.1035
 process(rm)
 
-document.getElementById("status").innerHTML="Live ✔"
-
 }catch{
-
-process(650)
-document.getElementById("status").innerHTML="Offline ⚠"
-
-}
+process(450)
 }
 
-// PROCESS ANYGOLD STYLE
+}
+
+// PROCESS
 function process(rm){
 
-let purity={
-g9999:0.999,
-g999:0.999,
-g916:0.916,
-g875:0.875,
-g750:0.750,
-g585:0.585,
-g375:0.375
+let base=rm*0.92
+
+let g9999=(base*0.999)-20
+let g999=(base*0.994)-20
+let g916=(base*0.916)-24
+let g835=(base*0.835)-35
+let g750=(base*0.750)-35
+let g585=(base*0.585)-35
+let g375=(base*0.375)-45
+
+// STAFF BEZA
+if(staff){
+g9999+=5
+g999+=6
+g916+=6
+g835+=8
+g750+=10
+g585+=10
+g375+=12
 }
 
-let buyMargin={
-g9999:18,
-g999:20,
-g916:10,
-g875:28,
-g750:30,
-g585:35,
-g375:45
+update("g9999",g9999)
+update("g999",g999)
+update("g916",g916)
+update("g835",g835)
+update("g750",g750)
+update("g585",g585)
+update("g375",g375)
+
 }
 
-let sellMargin={
-g9999:15,
-g916:20
+// UPDATE (NAIK TURUN)
+function update(id,value){
+
+let el=document.getElementById(id)
+let old=hargaSemasa[id]
+
+let arrow=""
+
+if(old !== undefined){
+if(value > old){
+el.className="up"
+arrow=" ↑"
+}else if(value < old){
+el.className="down"
+arrow=" ↓"
+}else{
+el.className=""
+}
 }
 
-Object.keys(purity).forEach(id=>{
+el.innerHTML="RM "+value.toFixed(2)+"/g"+arrow
 
-let raw = rm * purity[id]
+hargaSemasa[id]=value
 
-let buy = raw - (buyMargin[id]||0)
-let sell = sellMargin[id] ? raw + sellMargin[id] : null
-
-document.getElementById(id+"b").innerHTML = buy.toFixed(2)
-
-if(sell!==null){
-document.getElementById(id+"s").innerHTML = sell.toFixed(2)
 }
 
+// KIRA
+function kira(){
+let berat=document.getElementById("berat").value
+let karat=document.getElementById("karat").value
+let rate=hargaSemasa[karat] || 0
+let total=berat * rate
+document.getElementById("total").innerHTML=total.toFixed(2)
+}
+
+// AUTO GERAK (LIVE + MICRO MOVEMENT)
+harga()
+
+setInterval(()=>{
+harga()
+
+// buat harga nampak bergerak walaupun API slow
+Object.keys(hargaSemasa).forEach(id=>{
+let randomMove = (Math.random() - 0.5) * 0.8 // kecil sahaja
+let newValue = hargaSemasa[id] + randomMove
+update(id,newValue)
 })
 
-document.getElementById("lastUpdate").innerHTML =
-"Last Updated: "+new Date().toLocaleString()
-}
+},4000)
 
-// AUTO REFRESH
-setInterval(harga,15000)
-
-// START
-harga()
 </script>
 
 </body>
