@@ -2,206 +2,185 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HYNGOLD MKS LIVE</title>
+<title>HYNGOLD • AnyGold Style</title>
 
 <style>
-body{margin:0;background:#000;color:#ffd700;font-family:Arial;text-align:center;}
-
-.box{
-width:92%;max-width:420px;margin:20px auto;padding:15px;
-border-radius:18px;background:#000;
-box-shadow:0 0 15px gold,0 0 40px gold;
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f2f2f2;
+  color:#333;
 }
 
-.mode{font-size:12px;margin:6px 0;}
-.public{color:#ccc;}
-.agent{color:#ff7675;}
+/* HEADER */
+.header{
+  background:linear-gradient(#f7d774,#e6c34d);
+  padding:15px;
+  font-weight:bold;
+  font-size:22px;
+  text-align:center;
+}
 
+/* CARD */
+.card{
+  width:92%;
+  max-width:420px;
+  margin:15px auto;
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  overflow:hidden;
+}
+
+/* TABLE */
 .row{
-display:flex;justify-content:space-between;
-padding:10px;border-bottom:1px solid #333;
+  display:flex;
+  justify-content:space-between;
+  padding:12px;
+  border-bottom:1px solid #eee;
+  align-items:center;
 }
 
-.up{color:#00ff90;}
-.down{color:#ff4d4d;}
-.strike{color:#888;text-decoration:line-through;font-size:12px;margin-right:6px;}
+.header-row{
+  background:#f7e08a;
+  font-weight:bold;
+}
 
-.result{
-margin-top:10px;background:#ffd700;color:#000;
-padding:12px;border-radius:10px;font-size:22px;
+.purity{width:40%; text-align:left;}
+.buy{width:30%; text-align:center; color:#444;}
+.sell{width:30%; text-align:right; font-weight:bold; color:#000;}
+
+.muted{color:#999}
+
+/* FOOT */
+.footer{
+  padding:12px;
+  text-align:center;
 }
 
 button{
-margin-top:8px;padding:10px 18px;border:none;border-radius:8px;color:#fff;
+  padding:10px 20px;
+  border:none;
+  border-radius:8px;
+  background:#2d8cff;
+  color:#fff;
 }
-.refresh{background:#2ecc71;}
-.agentBtn{background:#e67e22;}
 
-input,select{
-width:85%;padding:10px;margin-top:10px;border-radius:10px;border:none;text-align:center;
+.status{
+  font-size:12px;
+  color:#666;
+  margin-top:6px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="header">HYNGOLD</div>
 
-<h2>HYNGOLD</h2>
-<div id="status">Connecting MKS...</div>
-<div id="spot"></div>
-<div id="lastUpdate"></div>
+<div class="card">
 
-<div class="mode public">PUBLIC vs AGENT RATE</div>
+  <div class="row header-row">
+    <div class="purity">PURITY</div>
+    <div class="buy">WE BUY (RM)</div>
+    <div class="sell">WE SELL (RM)</div>
+  </div>
 
-<div class="row"><span>999.9</span><span id="g9999">-</span></div>
-<div class="row"><span>999</span><span id="g999">-</span></div>
-<div class="row"><span>916</span><span id="g916">-</span></div>
-<div class="row"><span>835</span><span id="g835">-</span></div>
-<div class="row"><span>750</span><span id="g750">-</span></div>
-<div class="row"><span>585</span><span id="g585">-</span></div>
-<div class="row"><span>375</span><span id="g375">-</span></div>
+  <div class="row"><div class="purity">24K (999.9)</div><div class="buy" id="g9999b">-</div><div class="sell" id="g9999s">-</div></div>
+  <div class="row"><div class="purity">24K (999)</div><div class="buy" id="g999b">-</div><div class="sell muted">-</div></div>
+  <div class="row"><div class="purity">22K (916)</div><div class="buy" id="g916b">-</div><div class="sell" id="g916s">-</div></div>
+  <div class="row"><div class="purity">21K (875)</div><div class="buy" id="g875b">-</div><div class="sell muted">-</div></div>
+  <div class="row"><div class="purity">18K (750)</div><div class="buy" id="g750b">-</div><div class="sell muted">-</div></div>
+  <div class="row"><div class="purity">14K (585)</div><div class="buy" id="g585b">-</div><div class="sell muted">-</div></div>
+  <div class="row"><div class="purity">9K (375)</div><div class="buy" id="g375b">-</div><div class="sell muted">-</div></div>
 
-<select id="karat" onchange="kira()">
-<option value="g916" selected>916</option>
-<option value="g9999">999.9</option>
-<option value="g999">999</option>
-<option value="g835">835</option>
-<option value="g750">750</option>
-<option value="g585">585</option>
-<option value="g375">375</option>
-</select>
-
-<input type="number" id="berat" placeholder="Masukkan berat (g)" oninput="kira()">
-
-<div class="result">RM <span id="total">0.00</span></div>
-
-<button class="refresh" onclick="harga()">REFRESH</button>
-<button class="agentBtn" onclick="toggleAgent()">AGENT</button>
+  <div class="footer">
+    <button onclick="harga()">Refresh</button>
+    <div class="status" id="status">Connecting...</div>
+    <div class="status" id="lastUpdate"></div>
+  </div>
 
 </div>
 
 <script>
-let agentMode=false
-let lastPrice={}
-
-// TOGGLE AGENT
-function toggleAgent(){
-agentMode=!agentMode
-harga()
-}
-
-// FETCH MKS STYLE
+// FETCH LIVE (MKS STYLE)
 async function harga(){
 
-document.getElementById("status").innerHTML="Updating MKS..."
+document.getElementById("status").innerHTML="Updating..."
 
 try{
-// GOLD SPOT
+
 let res=await fetch("https://api.gold-api.com/price/XAU")
 let data=await res.json()
 let usd=data.price
 
-// FX LIVE
 let fx=await fetch("https://api.exchangerate-api.com/v4/latest/USD")
 let fxData=await fx.json()
 let rate=fxData.rates.MYR
 
-// MKS FORMULA
 let rm=(usd*rate)/31.1035
 
 process(rm)
 
-document.getElementById("status").innerHTML="MKS Live ✔"
-document.getElementById("spot").innerHTML=
-"Spot: "+usd.toFixed(2)+" USD | MYR: "+rate.toFixed(2)
+document.getElementById("status").innerHTML="Live ✔"
 
 }catch{
 
-// BACKUP
-let rm=650
-process(rm)
-document.getElementById("status").innerHTML="Backup Mode ⚠"
+process(650)
+document.getElementById("status").innerHTML="Offline ⚠"
 
 }
-
 }
 
-// CALC
-function calc(base,k,spread){
-return (base*k)-spread
-}
-
-// PROCESS (ALL KARAT)
+// PROCESS ANYGOLD STYLE
 function process(rm){
-
-// SPREAD SYSTEM (MKS STYLE DEALER)
-let basePublic=rm*0.88
-let baseAgent=rm*0.95
-
-let spread={
-g9999:20,g999:20,g916:26.4,g835:35,g750:35,g585:35,g375:45
-}
 
 let purity={
 g9999:0.999,
-g999:0.994,
+g999:0.999,
 g916:0.916,
-g835:0.835,
+g875:0.875,
 g750:0.750,
 g585:0.585,
 g375:0.375
 }
 
+let buyMargin={
+g9999:18,
+g999:20,
+g916:25,
+g875:28,
+g750:30,
+g585:35,
+g375:45
+}
+
+let sellMargin={
+g9999:15,
+g916:20
+}
+
 Object.keys(purity).forEach(id=>{
 
-let pub=calc(basePublic,purity[id],spread[id])
-let ag =calc(baseAgent,purity[id],spread[id])+15
+let raw = rm * purity[id]
 
-updateHarga(id,pub,ag)
+let buy = raw - (buyMargin[id]||0)
+let sell = sellMargin[id] ? raw + sellMargin[id] : null
+
+document.getElementById(id+"b").innerHTML = buy.toFixed(2)
+
+if(sell!==null){
+document.getElementById(id+"s").innerHTML = sell.toFixed(2)
+}
 
 })
 
-document.getElementById("lastUpdate").innerHTML=
-"Update: "+new Date().toLocaleTimeString()
-
-}
-
-// UPDATE + ARROW
-function updateHarga(id,pub,ag){
-
-let el=document.getElementById(id)
-let current=agentMode?ag:pub
-let old=lastPrice[id]
-
-let arrow="",cls=""
-
-if(old!==undefined){
-if(current>old){arrow=" ↑";cls="up"}
-else if(current<old){arrow=" ↓";cls="down"}
-}
-
-// DISPLAY DUAL
-el.innerHTML=
-"<span class='strike'>"+pub.toFixed(2)+"</span>"+
-"<span class='"+cls+"'> "+ag.toFixed(2)+arrow+"</span>"
-
-lastPrice[id]=current
-}
-
-// KIRA
-function kira(){
-let berat=document.getElementById("berat").value
-let karat=document.getElementById("karat").value
-
-let text=document.getElementById(karat).innerText
-let rate=parseFloat(text.replace(/[^\d.]/g,''))||0
-
-document.getElementById("total").innerHTML=(berat*rate).toFixed(2)
+document.getElementById("lastUpdate").innerHTML =
+"Last Updated: "+new Date().toLocaleString()
 }
 
 // AUTO REFRESH
-setInterval(harga,10000)
+setInterval(harga,15000)
 
 // START
 harga()
