@@ -1,4 +1,6 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html>
+<head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HYNGOLD WE BUY</title>
 
@@ -17,25 +19,23 @@ height:100vh;
 width:90%;
 max-width:420px;
 margin:auto;
-margin-top:60px;
+margin-top:40px;
 background:rgba(0,0,0,0.85);
-padding:25px;
+padding:20px;
 border-radius:18px;
 box-shadow:0 0 10px gold,0 0 40px gold;
 }
 
-.time{
-color:#ccc;
-margin-bottom:15px;
-font-size:14px;
-}
+.time{color:#ccc;font-size:14px;}
+.status{font-size:12px;color:#aaa;}
+.last{font-size:11px;color:#777;margin-bottom:10px;}
 
 .row{
 display:flex;
 justify-content:space-between;
-padding:12px;
+padding:10px;
 border-bottom:1px solid #333;
-font-size:20px;
+font-size:18px;
 }
 
 .up{color:#00ff90;}
@@ -61,7 +61,7 @@ font-size:22px;
 
 button{
 margin-top:10px;
-padding:12px 25px;
+padding:10px 20px;
 border:none;
 background:#2ecc71;
 color:white;
@@ -77,15 +77,50 @@ background:linear-gradient(#000,#2a0000,#000);
 .staff-box{
 box-shadow:0 0 20px red;
 }
-</style>
 
-</head><body>
+/* CHART */
+#chartWrap{
+margin-top:15px;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 0 10px gold;
+}
+
+#tv_chart{
+width:100%;
+height:300px;
+}
+
+/* FULLSCREEN */
+.fullscreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:9999;
+background:#000;
+border-radius:0;
+}
+
+.fullscreen #tv_chart{
+height:100vh;
+}
+</style>
+</head>
+
+<body>
 
 <div class="box" id="box">
 
-<h2 id="title">HYNGOLD WE BUY MEMBELI EMAS DENGAN HARGA TERTINGGI</h2>
+<h2 id="title">
+HYNGOLD<br>
+<span style="font-size:13px;color:#ccc">LIVE GOLD PRICE</span>
+</h2>
 
 <div class="time" id="time"></div>
+<div class="status" id="status">Connecting...</div>
+<div class="last" id="lastUpdate"></div>
 
 <div class="row"><span>999.9</span><span id="g9999">-</span></div>
 <div class="row"><span>999</span><span id="g999">-</span></div>
@@ -111,80 +146,96 @@ box-shadow:0 0 20px red;
 RM <span id="total">0.00</span>
 </div>
 
+<button onclick="manualRefresh()">REFRESH</button>
+<button onclick="toggleChart()">FULL CHART</button>
 <button class="agent" onclick="login()">AGEN</button>
+
+<!-- CHART -->
+<div id="chartWrap">
+  <div id="tv_chart"></div>
+</div>
 
 </div>
 
-<script>
+<script src="https://s3.tradingview.com/tv.js"></script>
 
+<script>
 let staff=false
 let hargaSemasa={}
+let lastFetch=0
+let chartFull=false
 
-// MASA LIVE
+// MASA
 function masa(){
 let now=new Date()
 let hari=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"]
 
-let h=hari[now.getDay()]
-let t=now.getDate()+"/"+(now.getMonth()+1)+"/"+now.getFullYear()
-let m=now.toLocaleTimeString()
+document.getElementById("time").innerHTML=
+hari[now.getDay()]+" | "+
+now.toLocaleDateString()+" | "+
+now.toLocaleTimeString()
 
-document.getElementById("time").innerHTML=h+" | "+t+" | "+m
+// reset agent
+let hour=now.getHours()
+if(hour < 9 || hour >= 20){
+staff=false
+document.body.classList.remove("staff-body")
+document.getElementById("box").classList.remove("staff-box")
+}
 }
 setInterval(masa,1000)
 
 // LOGIN
 function login(){
 let pass=prompt("Password Agen")
-if(pass=="9999"){
+if(pass==="HYNGOLD2026"){
 staff=true
-
 document.body.classList.add("staff-body")
 document.getElementById("box").classList.add("staff-box")
-document.getElementById("title").innerHTML="HYNGOLD AGENT MODE LOCK BERMULA JAM 0900AM HINGGA 0800PM KEDAI EMAS PILIHAN TERBAIK ANDA"
-
 harga()
 }
 }
 
-// FETCH LIVE
+// FETCH
 async function harga(){
+
+document.getElementById("status").innerHTML="Updating..."
 
 try{
 let res=await fetch("https://api.gold-api.com/price/XAU")
 let data=await res.json()
 
-let rm=(data.price*4.35)/31.1035
+let usd=data.price
+if(!usd) throw "error"
+
+let rm=(usd*4.7)/31.1035
 process(rm)
 
-}catch{
-process(450)
-}
+document.getElementById("status").innerHTML="Live ✔"
 
+}catch{
+process(460)
+document.getElementById("status").innerHTML="API Error ⚠"
+}
 }
 
 // PROCESS
 function process(rm){
 
-let base=rm*0.92
+let spread = staff ? 0.95 : 0.90
+let base=rm*spread
 
 let g9999=(base*0.999)-20
 let g999=(base*0.994)-20
-let g916=(base*0.916)-24
+let g916=(base*0.916)-26.40
 let g835=(base*0.835)-35
 let g750=(base*0.750)-35
 let g585=(base*0.585)-35
 let g375=(base*0.375)-45
 
-// STAFF BEZA
 if(staff){
-g9999+=5
-g999+=6
-g916+=6
-g835+=8
-g750+=10
-g585+=10
-g375+=12
+g9999+=5; g999+=6; g916+=7.98;
+g835+=8; g750+=10; g585+=10; g375+=12;
 }
 
 update("g9999",g9999)
@@ -195,32 +246,24 @@ update("g750",g750)
 update("g585",g585)
 update("g375",g375)
 
+document.getElementById("lastUpdate").innerHTML=
+"Last Update: "+new Date().toLocaleTimeString()
 }
 
-// UPDATE (NAIK TURUN)
+// UPDATE
 function update(id,value){
-
 let el=document.getElementById(id)
 let old=hargaSemasa[id]
-
 let arrow=""
 
 if(old !== undefined){
-if(value > old){
-el.className="up"
-arrow=" ↑"
-}else if(value < old){
-el.className="down"
-arrow=" ↓"
-}else{
-el.className=""
-}
+if(value > old){ el.className="up"; arrow=" ↑" }
+else if(value < old){ el.className="down"; arrow=" ↓" }
+else{ el.className="" }
 }
 
 el.innerHTML="RM "+value.toFixed(2)+"/g"+arrow
-
 hargaSemasa[id]=value
-
 }
 
 // KIRA
@@ -232,21 +275,44 @@ let total=berat * rate
 document.getElementById("total").innerHTML=total.toFixed(2)
 }
 
-// AUTO GERAK (LIVE + MICRO MOVEMENT)
+// REFRESH
+function autoRefresh(){
+let now=Date.now()
+let delay = staff ? 5000 : 10000
+if(now - lastFetch > delay){
 harga()
+lastFetch=now
+}
+}
+setInterval(autoRefresh,1000)
 
-setInterval(()=>{
+function manualRefresh(){
 harga()
+}
 
-// buat harga nampak bergerak walaupun API slow
-Object.keys(hargaSemasa).forEach(id=>{
-let randomMove = (Math.random() - 0.5) * 0.8 // kecil sahaja
-let newValue = hargaSemasa[id] + randomMove
-update(id,newValue)
-})
+// CHART
+function loadChart(){
+new TradingView.widget({
+  "width":"100%",
+  "height":"100%",
+  "symbol":"OANDA:XAUUSD",
+  "interval":"15",
+  "timezone":"Asia/Kuala_Lumpur",
+  "theme":"dark",
+  "style":"1",
+  "container_id":"tv_chart"
+});
+}
 
-},4000)
+function toggleChart(){
+let wrap=document.getElementById("chartWrap")
+chartFull=!chartFull
+wrap.classList.toggle("fullscreen")
+}
 
+// START
+harga()
+loadChart()
 </script>
 
 </body>
