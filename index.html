@@ -2,78 +2,51 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HYNGOLD FINAL</title>
+<title>HYNGOLD WE BUY</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial;
-background:#000;
 color:#ffd700;
 text-align:center;
+background:url("https://images.unsplash.com/photo-1610375461246-83df859d849d");
+background-size:cover;
+height:100vh;
 }
 
 .box{
-width:92%;
+width:90%;
 max-width:420px;
-margin:20px auto;
-padding:15px;
+margin:auto;
+margin-top:40px;
+background:rgba(0,0,0,0.85);
+padding:20px;
 border-radius:18px;
-box-shadow:0 0 15px gold,0 0 40px gold;
-background:#000;
+box-shadow:0 0 10px gold,0 0 40px gold;
 }
 
-/* LOGO */
-.shop-img{
-width:90px;height:90px;
-border-radius:50%;
-object-fit:cover;
-border:2px solid gold;
-box-shadow:0 0 15px gold;
-}
+.time{color:#ccc;font-size:14px;}
+.status{font-size:12px;color:#aaa;}
+.last{font-size:11px;color:#777;margin-bottom:10px;}
 
-/* MODE */
-.mode-badge{
-padding:5px 12px;
-border-radius:20px;
-font-size:12px;
-display:inline-block;
-margin-top:5px;
-}
-.public{background:#555;color:#fff;}
-.agent-mode{background:#e74c3c;color:#fff;}
-
-.banner{font-size:12px;color:#ccc;}
-.agent-banner{color:#ff7675;}
-
-/* ROW */
 .row{
 display:flex;
 justify-content:space-between;
 padding:10px;
 border-bottom:1px solid #333;
-}
-.agent-row{
-background:rgba(255,0,0,0.08);
-border-left:3px solid red;
+font-size:18px;
 }
 
 .up{color:#00ff90;}
 .down{color:#ff4d4d;}
-.strike{
-text-decoration:line-through;
-color:#888;
-font-size:12px;
-margin-right:5px;
-}
 
-/* INPUT */
 input,select{
-width:85%;
-padding:10px;
 margin-top:10px;
+padding:10px;
 border-radius:10px;
 border:none;
+width:80%;
 text-align:center;
 }
 
@@ -86,17 +59,24 @@ border-radius:10px;
 font-size:22px;
 }
 
-/* BUTTON */
 button{
-margin-top:8px;
-padding:10px 18px;
+margin-top:10px;
+padding:10px 20px;
 border:none;
+background:#2ecc71;
+color:white;
 border-radius:8px;
-color:#fff;
 }
-.refresh{background:#2ecc71;}
-.chart{background:#27ae60;}
+
 .agent{background:#e67e22;}
+
+.staff-body{
+background:linear-gradient(#000,#2a0000,#000);
+}
+
+.staff-box{
+box-shadow:0 0 20px red;
+}
 
 /* CHART */
 #chartWrap{
@@ -105,41 +85,50 @@ border-radius:12px;
 overflow:hidden;
 box-shadow:0 0 10px gold;
 }
-#tv_chart{height:300px;}
 
+#tv_chart{
+width:100%;
+height:300px;
+}
+
+/* FULLSCREEN */
 .fullscreen{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+top:0;
+left:0;
+width:100%;
+height:100%;
 z-index:9999;
 background:#000;
+border-radius:0;
 }
-.fullscreen #tv_chart{height:100vh;}
+
+.fullscreen #tv_chart{
+height:100vh;
+}
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="box" id="box">
 
-<img src="LOGO_URL" class="shop-img">
+<h2 id="title">
+HYNGOLD<br>
+<span style="font-size:13px;color:#ccc">LIVE GOLD PRICE </span>
+</h2>
 
-<h2>HYNGOLD</h2>
+<div class="time" id="time"></div>
+<div class="status" id="status">Connecting...</div>
+<div class="last" id="lastUpdate"></div>
 
-<div id="modeBadge" class="mode-badge public">PUBLIC MODE</div>
-<div id="modeBanner" class="banner">Harga biasa pelanggan</div>
-
-<div id="time"></div>
-<div id="status">Connecting...</div>
-<div id="lastUpdate"></div>
-
-<div class="row"><span>999.9</span><span id="g9999"></span></div>
-<div class="row"><span>999</span><span id="g999"></span></div>
-<div class="row"><span>916</span><span id="g916"></span></div>
-<div class="row"><span>835</span><span id="g835"></span></div>
-<div class="row"><span>750</span><span id="g750"></span></div>
-<div class="row"><span>585</span><span id="g585"></span></div>
-<div class="row"><span>375</span><span id="g375"></span></div>
+<div class="row"><span>999.9</span><span id="g9999">-</span></div>
+<div class="row"><span>999</span><span id="g999">-</span></div>
+<div class="row"><span>916</span><span id="g916">-</span></div>
+<div class="row"><span>835</span><span id="g835">-</span></div>
+<div class="row"><span>750</span><span id="g750">-</span></div>
+<div class="row"><span>585</span><span id="g585">-</span></div>
+<div class="row"><span>375</span><span id="g375">-</span></div>
 
 <select id="karat" onchange="kira()">
 <option value="g9999">999.9</option>
@@ -153,14 +142,17 @@ background:#000;
 
 <input type="number" id="berat" placeholder="Masukkan berat (g)" oninput="kira()">
 
-<div class="result">RM <span id="total">0.00</span></div>
+<div class="result">
+RM <span id="total">0.00</span>
+</div>
 
-<button class="refresh" onclick="harga()">REFRESH</button>
-<button class="chart" onclick="toggleChart()">FULL CHART</button>
+<button onclick="manualRefresh()">REFRESH</button>
+<button onclick="toggleChart()">FULL CHART</button>
 <button class="agent" onclick="login()">AGEN</button>
 
+<!-- CHART -->
 <div id="chartWrap">
-<div id="tv_chart"></div>
+  <div id="tv_chart"></div>
 </div>
 
 </div>
@@ -169,157 +161,160 @@ background:#000;
 
 <script>
 let staff=false
-let hargaLama={}
+let hargaSemasa={}
 let lastFetch=0
+let chartFull=false
 
 // MASA
-setInterval(()=>{
-document.getElementById("time").innerHTML=new Date().toLocaleString()
-},1000)
+function masa(){
+let now=new Date()
+let hari=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"]
+
+document.getElementById("time").innerHTML=
+hari[now.getDay()]+" | "+
+now.toLocaleDateString()+" | "+
+now.toLocaleTimeString()
+
+// reset agent
+let hour=now.getHours()
+if(hour < 9 || hour >= 20){
+staff=false
+document.body.classList.remove("staff-body")
+document.getElementById("box").classList.remove("staff-box")
+}
+}
+setInterval(masa,1000)
 
 // LOGIN
 function login(){
 let pass=prompt("Password Agen")
 if(pass==="HYNGOLD2026"){
 staff=true
-updateModeUI()
+document.body.classList.add("staff-body")
+document.getElementById("box").classList.add("staff-box")
+document.getElementById("title").innerHTML="HYNGOLD AGENT MODE LOCK BERMULA JAM 0900AM HINGGA 0800PM KEDAI EMAS PILIHAN TERBAIK ANDA"
 harga()
-}
-}
-
-// MODE UI
-function updateModeUI(){
-let badge=document.getElementById("modeBadge")
-let banner=document.getElementById("modeBanner")
-let rows=document.querySelectorAll(".row")
-
-if(staff){
-badge.className="mode-badge agent-mode"
-badge.innerHTML="AGENT MODE"
-banner.className="banner agent-banner"
-banner.innerHTML="Harga khas agent"
-rows.forEach(r=>r.classList.add("agent-row"))
-}else{
-badge.className="mode-badge public"
-badge.innerHTML="PUBLIC MODE"
-banner.innerHTML="Harga biasa pelanggan"
-rows.forEach(r=>r.classList.remove("agent-row"))
 }
 }
 
 // FETCH
 async function harga(){
+
 document.getElementById("status").innerHTML="Updating..."
+
 try{
 let res=await fetch("https://api.gold-api.com/price/XAU")
 let data=await res.json()
-let rm=(data.price*4.7)/31.1035
+
+let usd=data.price
+if(!usd) throw "error"
+
+let rm=(usd*4.35)/31.1035
 process(rm)
+
 document.getElementById("status").innerHTML="Live ✔"
+
 }catch{
 process(460)
-document.getElementById("status").innerHTML="API Error"
+document.getElementById("status").innerHTML="API Error ⚠"
 }
-}
-
-// CALC
-function calc(base,k,minus,bonus=0){
-return (base*k)-minus+bonus
 }
 
 // PROCESS
 function process(rm){
 
-let baseP=rm*0.90
-let baseA=rm*0.95
+let base=rm*0.92
 
-let pub={
-g9999:calc(baseP,0.999,20),
-g999:calc(baseP,0.994,20),
-g916:calc(baseP,0.916,26.4),
-g835:calc(baseP,0.835,35),
-g750:calc(baseP,0.750,35),
-g585:calc(baseP,0.585,35),
-g375:calc(baseP,0.375,45)
+let g9999=(base*0.999)-21
+let g999=(base*0.994)-22
+let g916=(base*0.916)-24
+let g835=(base*0.835)-35
+let g750=(base*0.750)-39
+let g585=(base*0.585)-44
+let g375=(base*0.375)-55
+
+// STAFF BEZA
+if(staff){
+g9999+=5
+g999+=6
+g916+=6
+g835+=8
+g750+=10
+g585+=10
+g375+=12
 }
 
-let ag={
-g9999:calc(baseA,0.999,20,5),
-g999:calc(baseA,0.994,20,6),
-g916:calc(baseA,0.916,26.4,7.98),
-g835:calc(baseA,0.835,35,8),
-g750:calc(baseA,0.750,35,10),
-g585:calc(baseA,0.585,35,10),
-g375:calc(baseA,0.375,45,12)
-}
-
-Object.keys(pub).forEach(id=>{
-updateHarga(id,pub[id],ag[id])
-})
+update("g9999",g9999)
+update("g999",g999)
+update("g916",g916)
+update("g835",g835)
+update("g750",g750)
+update("g585",g585)
+update("g375",g375)
 
 document.getElementById("lastUpdate").innerHTML=
-"Update: "+new Date().toLocaleTimeString()
+"Last Update: "+new Date().toLocaleTimeString()
 }
 
-// UPDATE + ARROW
-function updateHarga(id,pub,ag){
-
+// UPDATE
+function update(id,value){
 let el=document.getElementById(id)
-let current = staff ? ag : pub
-let old = hargaLama[id]
+let old=hargaSemasa[id]
+let arrow=""
 
-let arrow="", cls=""
-
-if(old!==undefined){
-if(current>old){arrow=" ↑";cls="up"}
-else if(current<old){arrow=" ↓";cls="down"}
+if(old !== undefined){
+if(value > old){ el.className="up"; arrow=" ↑" }
+else if(value < old){ el.className="down"; arrow=" ↓" }
+else{ el.className="" }
 }
 
-if(staff){
-el.innerHTML =
-"<span class='strike'>RM "+pub.toFixed(2)+"</span>"+
-"<span class='"+cls+"'> RM "+ag.toFixed(2)+"/g"+arrow+"</span>"
-}else{
-el.innerHTML =
-"<span class='"+cls+"'>RM "+pub.toFixed(2)+"/g"+arrow+"</span>"
-}
-
-hargaLama[id]=current
+el.innerHTML="RM "+value.toFixed(2)+"/g"+arrow
+hargaSemasa[id]=value
 }
 
 // KIRA
 function kira(){
 let berat=document.getElementById("berat").value
 let karat=document.getElementById("karat").value
-let text=document.getElementById(karat).innerText
-let rate=parseFloat(text.replace(/[^\d.]/g,''))||0
-document.getElementById("total").innerHTML=(berat*rate).toFixed(2)
+let rate=hargaSemasa[karat] || 0
+let total=berat * rate
+document.getElementById("total").innerHTML=total.toFixed(2)
+}
+
+// REFRESH
+function autoRefresh(){
+let now=Date.now()
+let delay = staff ? 5000 : 10000
+if(now - lastFetch > delay){
+harga()
+lastFetch=now
+}
+}
+setInterval(autoRefresh,1000)
+
+function manualRefresh(){
+harga()
 }
 
 // CHART
 function loadChart(){
 new TradingView.widget({
-width:"100%",
-height:"100%",
-symbol:"OANDA:XAUUSD",
-interval:"15",
-theme:"dark",
-container_id:"tv_chart"
-})
+  "width":"100%",
+  "height":"100%",
+  "symbol":"OANDA:XAUUSD",
+  "interval":"15",
+  "timezone":"Asia/Kuala_Lumpur",
+  "theme":"dark",
+  "style":"1",
+  "container_id":"tv_chart"
+});
 }
 
 function toggleChart(){
-document.getElementById("chartWrap").classList.toggle("fullscreen")
+let wrap=document.getElementById("chartWrap")
+chartFull=!chartFull
+wrap.classList.toggle("fullscreen")
 }
-
-// AUTO REFRESH SMART
-setInterval(()=>{
-let now=Date.now()
-if(now-lastFetch>8000){
-harga()
-lastFetch=now
-}
-},1000)
 
 // START
 harga()
