@@ -208,7 +208,7 @@ let data=await res.json()
 let usd=data.price
 if(!usd) throw "error"
 
-let rm=(usd*4.7)/31.1035
+let rm=(usd*4.35)/31.1035
 process(rm)
 
 document.getElementById("status").innerHTML="Live ✔"
