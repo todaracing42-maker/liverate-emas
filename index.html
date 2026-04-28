@@ -2,76 +2,78 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HYNGOLD WE BUY</title>
+<title>HYNGOLD FINAL</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial;
+background:#000;
 color:#ffd700;
 text-align:center;
-background:#000;
 }
 
 .box{
-width:90%;
+width:92%;
 max-width:420px;
-margin:auto;
-margin-top:20px;
-background:rgba(0,0,0,0.9);
+margin:20px auto;
 padding:15px;
 border-radius:18px;
-box-shadow:0 0 10px gold,0 0 40px gold;
+box-shadow:0 0 15px gold,0 0 40px gold;
+background:#000;
 }
 
-/* GAMBAR KEDAI */
+/* LOGO */
 .shop-img{
-width:100%;
-border-radius:12px;
-margin-bottom:10px;
-box-shadow:0 0 10px gold;
+width:90px;height:90px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid gold;
+box-shadow:0 0 15px gold;
 }
 
-/* MODE BADGE */
+/* MODE */
 .mode-badge{
-display:inline-block;
-padding:4px 10px;
+padding:5px 12px;
 border-radius:20px;
 font-size:12px;
+display:inline-block;
 margin-top:5px;
 }
 .public{background:#555;color:#fff;}
 .agent-mode{background:#e74c3c;color:#fff;}
 
-.banner{font-size:12px;color:#ccc;margin-bottom:5px;}
+.banner{font-size:12px;color:#ccc;}
 .agent-banner{color:#ff7675;}
 
+/* ROW */
 .row{
 display:flex;
 justify-content:space-between;
 padding:10px;
 border-bottom:1px solid #333;
-font-size:18px;
 }
-
 .agent-row{
 background:rgba(255,0,0,0.08);
 border-left:3px solid red;
 }
 
+.up{color:#00ff90;}
+.down{color:#ff4d4d;}
 .strike{
 text-decoration:line-through;
-color:#999;
+color:#888;
 font-size:12px;
 margin-right:5px;
 }
 
+/* INPUT */
 input,select{
-margin-top:10px;
+width:85%;
 padding:10px;
+margin-top:10px;
 border-radius:10px;
 border:none;
-width:80%;
 text-align:center;
 }
 
@@ -79,20 +81,21 @@ text-align:center;
 margin-top:10px;
 background:#ffd700;
 color:#000;
-padding:10px;
+padding:12px;
 border-radius:10px;
 font-size:22px;
 }
 
+/* BUTTON */
 button{
 margin-top:8px;
-padding:10px 20px;
+padding:10px 18px;
 border:none;
-background:#2ecc71;
-color:white;
 border-radius:8px;
+color:#fff;
 }
-
+.refresh{background:#2ecc71;}
+.chart{background:#27ae60;}
 .agent{background:#e67e22;}
 
 /* CHART */
@@ -102,26 +105,16 @@ border-radius:12px;
 overflow:hidden;
 box-shadow:0 0 10px gold;
 }
+#tv_chart{height:300px;}
 
-#tv_chart{
-width:100%;
-height:300px;
-}
-
-/* FULLSCREEN */
 .fullscreen{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+top:0;left:0;
+width:100%;height:100%;
 z-index:9999;
 background:#000;
 }
-
-.fullscreen #tv_chart{
-height:100vh;
-}
+.fullscreen #tv_chart{height:100vh;}
 </style>
 </head>
 
@@ -129,8 +122,7 @@ height:100vh;
 
 <div class="box">
 
-<!-- GAMBAR KEDAI -->
-<img src="URL_GAMBAR_KEDAI" class="shop-img">
+<img src="LOGO_URL" class="shop-img">
 
 <h2>HYNGOLD</h2>
 
@@ -163,8 +155,8 @@ height:100vh;
 
 <div class="result">RM <span id="total">0.00</span></div>
 
-<button onclick="harga()">REFRESH</button>
-<button onclick="toggleChart()">FULL CHART</button>
+<button class="refresh" onclick="harga()">REFRESH</button>
+<button class="chart" onclick="toggleChart()">FULL CHART</button>
 <button class="agent" onclick="login()">AGEN</button>
 
 <div id="chartWrap">
@@ -177,21 +169,25 @@ height:100vh;
 
 <script>
 let staff=false
+let hargaLama={}
+let lastFetch=0
 
-function masa(){
+// MASA
+setInterval(()=>{
 document.getElementById("time").innerHTML=new Date().toLocaleString()
-}
-setInterval(masa,1000)
+},1000)
 
+// LOGIN
 function login(){
 let pass=prompt("Password Agen")
-if(pass==="12340"){
+if(pass==="HYNGOLD2026"){
 staff=true
 updateModeUI()
 harga()
 }
 }
 
+// MODE UI
 function updateModeUI(){
 let badge=document.getElementById("modeBadge")
 let banner=document.getElementById("modeBanner")
@@ -206,22 +202,19 @@ rows.forEach(r=>r.classList.add("agent-row"))
 }else{
 badge.className="mode-badge public"
 badge.innerHTML="PUBLIC MODE"
-banner.className="banner"
-banner.innerHTML="Harga biasa"
+banner.innerHTML="Harga biasa pelanggan"
 rows.forEach(r=>r.classList.remove("agent-row"))
 }
 }
 
+// FETCH
 async function harga(){
 document.getElementById("status").innerHTML="Updating..."
-
 try{
 let res=await fetch("https://api.gold-api.com/price/XAU")
 let data=await res.json()
-
 let rm=(data.price*4.7)/31.1035
 process(rm)
-
 document.getElementById("status").innerHTML="Live ✔"
 }catch{
 process(460)
@@ -229,58 +222,81 @@ document.getElementById("status").innerHTML="API Error"
 }
 }
 
+// CALC
 function calc(base,k,minus,bonus=0){
 return (base*k)-minus+bonus
 }
 
+// PROCESS
 function process(rm){
 
-let basePublic=rm*0.90
-let baseAgent=rm*0.95
+let baseP=rm*0.90
+let baseA=rm*0.95
 
 let pub={
-g9999:calc(basePublic,0.999,20),
-g999:calc(basePublic,0.994,20),
-g916:calc(basePublic,0.916,26.4),
-g835:calc(basePublic,0.835,35),
-g750:calc(basePublic,0.750,35),
-g585:calc(basePublic,0.585,35),
-g375:calc(basePublic,0.375,45)
+g9999:calc(baseP,0.999,20),
+g999:calc(baseP,0.994,20),
+g916:calc(baseP,0.916,26.4),
+g835:calc(baseP,0.835,35),
+g750:calc(baseP,0.750,35),
+g585:calc(baseP,0.585,35),
+g375:calc(baseP,0.375,45)
 }
 
 let ag={
-g9999:calc(baseAgent,0.999,20,5),
-g999:calc(baseAgent,0.994,20,6),
-g916:calc(baseAgent,0.916,26.4,7.98),
-g835:calc(baseAgent,0.835,35,8),
-g750:calc(baseAgent,0.750,35,10),
-g585:calc(baseAgent,0.585,35,10),
-g375:calc(baseAgent,0.375,45,12)
+g9999:calc(baseA,0.999,20,5),
+g999:calc(baseA,0.994,20,6),
+g916:calc(baseA,0.916,26.4,7.98),
+g835:calc(baseA,0.835,35,8),
+g750:calc(baseA,0.750,35,10),
+g585:calc(baseA,0.585,35,10),
+g375:calc(baseA,0.375,45,12)
 }
 
 Object.keys(pub).forEach(id=>{
-let el=document.getElementById(id)
-
-if(staff){
-el.innerHTML="<span class='strike'>RM "+pub[id].toFixed(2)+"</span> RM "+ag[id].toFixed(2)+"/g"
-}else{
-el.innerHTML="RM "+pub[id].toFixed(2)+"/g"
-}
+updateHarga(id,pub[id],ag[id])
 })
 
-document.getElementById("lastUpdate").innerHTML="Update: "+new Date().toLocaleTimeString()
+document.getElementById("lastUpdate").innerHTML=
+"Update: "+new Date().toLocaleTimeString()
 }
 
+// UPDATE + ARROW
+function updateHarga(id,pub,ag){
+
+let el=document.getElementById(id)
+let current = staff ? ag : pub
+let old = hargaLama[id]
+
+let arrow="", cls=""
+
+if(old!==undefined){
+if(current>old){arrow=" ↑";cls="up"}
+else if(current<old){arrow=" ↓";cls="down"}
+}
+
+if(staff){
+el.innerHTML =
+"<span class='strike'>RM "+pub.toFixed(2)+"</span>"+
+"<span class='"+cls+"'> RM "+ag.toFixed(2)+"/g"+arrow+"</span>"
+}else{
+el.innerHTML =
+"<span class='"+cls+"'>RM "+pub.toFixed(2)+"/g"+arrow+"</span>"
+}
+
+hargaLama[id]=current
+}
+
+// KIRA
 function kira(){
 let berat=document.getElementById("berat").value
 let karat=document.getElementById("karat").value
-
 let text=document.getElementById(karat).innerText
-let rate=parseFloat(text.replace(/[^\d.]/g,'')) || 0
-
+let rate=parseFloat(text.replace(/[^\d.]/g,''))||0
 document.getElementById("total").innerHTML=(berat*rate).toFixed(2)
 }
 
+// CHART
 function loadChart(){
 new TradingView.widget({
 width:"100%",
@@ -296,6 +312,16 @@ function toggleChart(){
 document.getElementById("chartWrap").classList.toggle("fullscreen")
 }
 
+// AUTO REFRESH SMART
+setInterval(()=>{
+let now=Date.now()
+if(now-lastFetch>8000){
+harga()
+lastFetch=now
+}
+},1000)
+
+// START
 harga()
 loadChart()
 </script>
