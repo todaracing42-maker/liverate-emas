@@ -203,13 +203,17 @@ async function harga(){
 document.getElementById("status").innerHTML="Updating..."
 
 try{
-let res=await fetch("https://api.gold-api.com/price/XAU")
-let data=await res.json()
+let fx = await fetch("https://api.exchangerate-api.com/v4/latest/USD")
+let fxData = await fx.json()
 
-let usd=data.price
-if(!usd) throw "error"
+let rate = fxData.rates.MYR
 
-let rm=(usd*4.35)/31.1035
+let rm = (usd * rate) / 31.1035
+
+// rate boleh adjust ikut bank
+let usdToMyr = 4.65
+
+let rm = (usd * usdToMyr) / 31.1035
 process(rm)
 
 document.getElementById("status").innerHTML="Live ✔"
