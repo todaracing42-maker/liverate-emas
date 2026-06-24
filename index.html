@@ -91,6 +91,7 @@ box-shadow:0 0 20px red;
 <div class="row"><span>999</span><span id="g999">-</span></div>
 <div class="row"><span>916</span><span id="g916">-</span></div>
 <div class="row"><span>835</span><span id="g835">-</span></div>
+<div class="row"><span>800</span><span id="g800">-</span></div>
 <div class="row"><span>750</span><span id="g750">-</span></div>
 <div class="row"><span>585</span><span id="g585">-</span></div>
 <div class="row"><span>375</span><span id="g375">-</span></div>
@@ -99,6 +100,7 @@ box-shadow:0 0 20px red;
 <option value="g9999">999.9</option>
 <option value="g999">999</option>
 <option value="g916" selected>916</option>
+<option value="g800">835</option>
 <option value="g835">835</option>
 <option value="g750">750</option>
 <option value="g585">585</option>
@@ -168,13 +170,14 @@ function process(rm){
 
 let base=rm*0.92
 
-let g9999=(base*0.999)-20
-let g999=(base*0.994)-20
-let g916=(base*0.916)-26.4
-let g835=(base*0.835)-35
-let g750=(base*0.750)-35
-let g585=(base*0.585)-35
-let g375=(base*0.375)-45
+let g9999=(base*0.999)-2.00
+let g999=(base*0.994)-6.00
+let g916=(base*0.916)-3.00
+let g835=(base*0.835)-26
+let g835=(base*0.800)-28
+let g750=(base*0.750)-27
+let g585=(base*0.585)-30
+let g375=(base*0.375)-34
 
 // STAFF BEZA
 if(staff){
