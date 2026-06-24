@@ -113,7 +113,7 @@ box-shadow:0 0 20px red;
 RM <span id="total">0.00</span>
 </div>
 
-<button class="🔐 " onclick="login()">🔐 </button>
+<button class="agent" onclick="login()" id="agentBtn">🔐</button>
 
 </div>
 
@@ -137,9 +137,25 @@ setInterval(masa,1000)
 
 // LOGIN
 function login(){
-let pass=prompt("Password Agen")
-if(pass=="01234"){
+
+let pass = prompt("Password Agen")
+
+if(pass==="HYNGOLD2026"){
+
 staff=true
+
+document.getElementById("agentBtn").innerHTML="🔓"
+
+updateModeUI()
+harga()
+
+}else{
+
+alert("Password Salah")
+
+}
+
+}
 
 document.body.classList.add("staff-body")
 document.getElementById("box").classList.add("staff-box")
