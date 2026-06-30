@@ -83,7 +83,7 @@ box-shadow:0 0 20px red;
 
 <div class="box" id="box">
 
-<h2 id="title">HYNGOLD WE BUY MEMBELI EMAS DENGAN HARGA TERTINGGI</h2>
+<h2 id="title">HYNGOLD WE BUY</h2>
 
 <div class="time" id="time"></div>
 
@@ -91,7 +91,6 @@ box-shadow:0 0 20px red;
 <div class="row"><span>999</span><span id="g999">-</span></div>
 <div class="row"><span>916</span><span id="g916">-</span></div>
 <div class="row"><span>835</span><span id="g835">-</span></div>
-<div class="row"><span>800</span><span id="g800">-</span></div>
 <div class="row"><span>750</span><span id="g750">-</span></div>
 <div class="row"><span>585</span><span id="g585">-</span></div>
 <div class="row"><span>375</span><span id="g375">-</span></div>
@@ -101,7 +100,6 @@ box-shadow:0 0 20px red;
 <option value="g999">999</option>
 <option value="g916" selected>916</option>
 <option value="g835">835</option>
-<option value="g800">800</option>
 <option value="g750">750</option>
 <option value="g585">585</option>
 <option value="g375">375</option>
@@ -138,12 +136,12 @@ setInterval(masa,1000)
 // LOGIN
 function login(){
 let pass=prompt("Password Agen")
-if(pass=="kancil"){
+if(pass=="1234"){
 staff=true
 
 document.body.classList.add("staff-body")
 document.getElementById("box").classList.add("staff-box")
-document.getElementById("title").innerHTML="HYNGOLD AGENT MODE LOCK BERMULA JAM 0900am HINGGA 0800pm KEDAI EMAS PILIHAN TERBAIK NO.1 KEGEMARAN ANDA"
+document.getElementById("title").innerHTML="HYNGOLD AGENT MODE"
 
 harga()
 }
@@ -170,14 +168,13 @@ function process(rm){
 
 let base=rm*0.92
 
-let g9999=(base*0.999)-8.00
-let g999=(base*0.994)-11.00
-let g916=(base*0.916)-07.00
-let g835=(base*0.835)-31
-let g800=(base*0.800)-33
-let g750=(base*0.750)-32
+let g9999=(base*0.999)-20
+let g999=(base*0.994)-20
+let g916=(base*0.916)-26.4
+let g835=(base*0.835)-35
+let g750=(base*0.750)-35
 let g585=(base*0.585)-35
-let g375=(base*0.375)-39
+let g375=(base*0.375)-45
 
 // STAFF BEZA
 if(staff){
@@ -194,7 +191,6 @@ update("g9999",g9999)
 update("g999",g999)
 update("g916",g916)
 update("g835",g835)
-update("g800",g800)
 update("g750",g750)
 update("g585",g585)
 update("g375",g375)
